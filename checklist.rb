@@ -5,6 +5,20 @@ class Eth2Checklist
   end
   attr_reader :config
 
+end
+
+
+module Firewall
+
+    def status
+
+    end
+
+end
+
+
+module Clients
+
   def check_service_status(job)
     jobs = [:geth,:prysmbeacon,:prysmvalidator]
     raise "service must be one of #{jobs.join(' ')}" unless jobs.include? job
