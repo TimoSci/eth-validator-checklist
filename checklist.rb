@@ -23,7 +23,8 @@ end
 module Users
 
   def id(user)
-    (%x|id -u #{user.to_s}|).scan(/^(\d)+/)
+    matches = (%x|id -u #{user.to_s}|)
+    matches.empty? ? nil : matches.chomp.to_i
   end
 
 end
@@ -32,7 +33,7 @@ end
 
 class Eth2Checklist
 
-  def initialize(config)
+  def initialize(config=nil)
     @config = config
   end
   attr_reader :config
