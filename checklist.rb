@@ -1,13 +1,30 @@
 module Firewall
 
+  def query
+    @query = (%x|sudo ufw status verbose|)
+    def query
+      @query
+    end
+    @query
+  end
+
   def status
-    q = (%x|sudo ufw status|).scan(/^Status:\s*(\w+)/)[0]
+    q = query.scan(/^Status:\s*(\w+)/)[0]
     q && q[0]
   end
 
   def defaults
-    q = (%x|sudo ufw status verbose|).scan(/^Default.*$/)[0]
-    q && q.scan(/(\w+)\s+\((\w+)\)/)
+    q = query.scan(/^Default:.*$/)[0]
+    q && q.scan(/(\w+)\s+\((\w+)\)/).map{|x| x.reverse}.to_h
+  end
+
+
+  def active?
+    status == "active"
+  end
+
+  def default_incoming_deny?
+    defaults["incoming"] == "deny"
   end
 
 end
