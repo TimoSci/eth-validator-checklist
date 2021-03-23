@@ -1,10 +1,13 @@
 module Firewall
 
   def status
-    (%x|sudo ufw status|).scan(/^Status:\s*(active)/)[0][0]
+    q = (%x|sudo ufw status|).scan(/^Status:\s*(\w+)/)[0]
+    q && q[0]
   end
 
   def defaults
+    q = (%x|sudo ufw status verbose|).scan(/^Default.*$/)[0]
+    q && q.scan(/(\w+)\s+\((\w+)\)/)
   end
 
 end
