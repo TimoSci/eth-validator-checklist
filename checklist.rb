@@ -1,57 +1,24 @@
+require_relative './cmd_to_hash.rb'
+
 class Firewall
 
+  include UFW
+
   def query
-    @query = (%x|sudo ufw status verbose|)
+    @query = parse(%x|sudo ufw status verbose|)
     def query
       @query
     end
     @query
   end
 
-  def parse(s)
-    out = {}
-    a = s.split("\n")
-    i = a.index("")
-
-    a[0..i].each do |line|
-      match = line.scan(/^(\w+):\s*(.*)\s*/)[0]
-      if match
-        key = match[0]
-        value = match[1]
-        key.strip!
-        if key == "Default"
-          value = parse_defaults(value)
-        end
-        out[key] = value
-      end
-    end
-
-    a[(i+1)..-1].each do |line|
-      match = line.scan(/(^\d+\s?\S+)\s{2,}(\w+\s?\S+)\s{2,}(\S+\s?\S+)/)[0]
-      if match
-        out[:ports] ||= []
-        out[:ports] << {to: match[0], action: match[1], from: match[2] }
-      end
-    end
-
-    out
-  end
-
-  def parse_defaults(s)
-    s.scan(/(\w+)\s+\((\w+)\)/).map{|x| x.reverse}.to_h
-  end
-
   def defaults
-    q = query.scan(/^Default:.*$/)[0]
-    q && q.scan(/(\w+)\s+\((\w+)\)/).map{|x| x.reverse}.to_h
+    query["Default"]
   end
-
 
   def status
-    q = query.scan(/^Status:\s*(\w+)/)[0]
-    q && q[0]
+    query["Status"]
   end
-
 
   def active?
     status == "active"
