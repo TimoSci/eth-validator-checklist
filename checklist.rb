@@ -1,4 +1,4 @@
-module Firewall
+class Firewall
 
   def query
     @query = (%x|sudo ufw status verbose|)
@@ -30,7 +30,7 @@ module Firewall
 end
 
 
-module Clients
+class Clients
 
   def check_service_status(job)
     jobs = [:geth,:prysmbeacon,:prysmvalidator]
@@ -42,7 +42,7 @@ module Clients
 end
 
 
-module Users
+class Users
 
   def id(user)
     matches = (%x|id -u #{user.to_s}|)
@@ -53,15 +53,26 @@ end
 
 
 
+
 class Eth2Checklist
 
+  @@api_config = {
+    firewall: Firewall,
+    clients: Clients,
+    users: Users
+  }
+
   def initialize(config=nil)
+
     @config = config
+    @@api_config.each do |methode,klass|
+      instance_variable_set("@"+methode.to_s,klass.new)
+    end
+  end
+
+  @@api_config.keys.each do |methode|
+    attr_reader methode
   end
   attr_reader :config
-
-  include Firewall
-  include Clients
-  include Users
 
 end
