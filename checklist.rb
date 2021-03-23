@@ -9,6 +9,7 @@ module Firewall
 
 end
 
+
 module Clients
 
   def check_service_status(job)
@@ -19,6 +20,7 @@ module Clients
   end
 
 end
+
 
 module Users
 
