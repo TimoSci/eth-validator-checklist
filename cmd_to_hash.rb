@@ -2,9 +2,13 @@
 # Library for converting outputs of Linux commands to Ruby Hashes
 
 #
-# Module for command'ufw'
+# Module for command 'ufw'
 #
 module UFW
+
+  def ufw_status
+     parse(%x|sudo ufw status verbose|)
+  end
 
   def parse(s)
     out = {}
@@ -37,6 +41,26 @@ module UFW
 
   def parse_defaults(s)
     s.scan(/(\w+)\s+\((\w+)\)/).map{|x| x.reverse}.to_h
+  end
+
+end
+
+
+#
+# Module for command 'systemctl'
+#
+module Systemctl
+
+  def systemctl_status(job)
+    out = {}
+    s = %x|sudo systemctl status #{job.to_s}|
+    s.each_line do |line|
+      match = line.scan( /^\s*(\w.*\w):\s+(.+)\s+(\(.*)$/ )[0]
+      if match
+        out[match[0]] = {value: match[1], info: match[2]}
+      end
+    end
+    out
   end
 
 end

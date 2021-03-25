@@ -1,11 +1,15 @@
 require_relative './cmd_to_hash.rb'
 
+class Helpers
+end
+
+
 class Firewall
 
   include UFW
 
   def query
-    @query = parse(%x|sudo ufw status verbose|)
+    @query = ufw_status
     def query
       @query
     end
@@ -33,11 +37,14 @@ end
 
 class Clients
 
-  def service_status(job)
-    jobs = [:geth,:prysmbeacon,:prysmvalidator]
-    raise "service must be one of #{jobs.join(' ')}" unless jobs.include? job
-    query = %x|sudo systemctl status #{job.to_s}|
-    puts query
+  include Systemctl
+
+  def query
+    @query = systemctl_status
+    def query
+      @query
+    end
+    @query
   end
 
 end
