@@ -1,20 +1,33 @@
 require_relative './cmd_to_hash.rb'
 
-class Helpers
+
+module Helpers
+
+  def self.included(base)
+    def base.make_query(meth)
+      define_method(:query) do
+          @query = send(meth)
+          def query
+            @query
+          end
+          @query
+      end
+    end
+  end
+
 end
+
+
 
 
 class Firewall
 
   include UFW
+  include Helpers
 
-  def query
-    @query = ufw_status
-    def query
-      @query
-    end
-    @query
-  end
+
+  make_query :ufw_status
+
 
   def defaults
     query["Default"]
