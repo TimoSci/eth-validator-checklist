@@ -25,7 +25,6 @@ class Firewall
   include UFW
   include Helpers
 
-
   make_query :ufw_status
 
 
@@ -52,16 +51,20 @@ class Clients
 
   include Systemctl
 
-  def query
-    @query = systemctl_status
-    def query
-      @query
-    end
-    @query
-  end
+  # def query(job)
+  #   @query = systemctl_status(job)
+  #   def query(job)
+  #     @query
+  #   end
+  #   @query
+  # end
 
 end
 
+
+class TimeDate
+  include Timedatectl
+end
 
 class Users
 
@@ -80,7 +83,8 @@ class Eth2Checklist
   @@api_config = {
     firewall: Firewall,
     clients: Clients,
-    users: Users
+    users: Users,
+    timedate: TimeDate,
   }
 
   def initialize(config=nil)

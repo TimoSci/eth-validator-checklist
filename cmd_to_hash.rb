@@ -64,3 +64,22 @@ module Systemctl
   end
 
 end
+
+
+#
+# Module for command 'timedatectl'
+#
+module Timedatectl
+
+  def status
+
+    {}.tap do |out|
+      (%x|sudo timedatectl|).each_line do |line|
+        match = line.scan( /^\s*(\w[^:]*):\s*(.*)\s*/ )[0]
+        out [match[0]] = match[1] if match
+      end
+    end
+
+  end
+
+end
