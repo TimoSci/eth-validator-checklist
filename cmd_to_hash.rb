@@ -71,7 +71,7 @@ end
 #
 module Timedatectl
 
-  def status
+  def timedatectl
 
     {}.tap do |out|
       (%x|sudo timedatectl|).each_line do |line|
@@ -79,6 +79,26 @@ module Timedatectl
         out [match[0]] = match[1] if match
       end
     end
+
+  end
+
+end
+
+
+#
+# Module for command 'apt list (--upgradable)'
+#
+module APT
+
+  def apt_list
+
+    {}.tap do |out|
+      (%x|apt list --upgradable|).each_line do |line|
+        match = line.scan( /^(\w+)\/(.*)$/ )[0]
+        out [match[0]] = match[1] if match
+      end
+    end
+
 
   end
 

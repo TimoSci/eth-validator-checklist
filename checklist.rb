@@ -64,6 +64,27 @@ end
 
 class TimeDate
   include Timedatectl
+  include Helpers
+
+  make_query :timedatectl
+
+  def clock_synchronized?
+    key = query.keys.find{|s| /system\s+clock\s+synchronized/i =~ s}
+    return false unless key
+    !!( /\s*yes\s*/ =~  query[key] )
+  end
+
+  def ntp_active?
+  end
+
+  def ntp_status
+     key = query.keys.find{|s| /NTP\s+service/i =~ s}
+     key && query[key]
+  end
+
+  #GETH time eth.getBlock(eth.blockNumber)["timestamp"]
+  # Time.now.to_i
+
 end
 
 class Users
