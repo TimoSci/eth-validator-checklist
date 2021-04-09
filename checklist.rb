@@ -111,13 +111,19 @@ end
 
 class Users < ChecklistSection
 
+  attr_accessor :current_user
+
   def id(user)
     matches = (%x|id -u #{user.to_s}|)
     matches.empty? ? nil : matches.chomp.to_i
   end
 
-  def admin_exists?
+  def get_current_user
+    (%x|who|).scan(/^\w+/).first
+  end
 
+  def set_current_user
+    self.current_user = get_current_user
   end
 
 end

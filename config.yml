@@ -8,5 +8,4 @@ directories:
   geth: /var/lib/goethereum
 
 users:
-  admin: tfj
   geth: goeth  
