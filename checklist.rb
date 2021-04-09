@@ -8,6 +8,7 @@ module Helpers
   def self.included(base)
 
     def base.make_query(meth)
+      # memoization
       define_method(:query) do
           @query = send(meth)
           def query
@@ -17,20 +18,30 @@ module Helpers
       end
     end
 
+    # def base.belongs_to(parent)
+    #   @parent = parent
+    #   define_method(parent) do
+    #     @parent
+    #   end
+    # end
+
   end
 
 end
 
 
 
+class ChecklistSection
+  attr_accessor :checklist
+end
 
-class Firewall
+
+class Firewall < ChecklistSection
 
   include Commands::UFW
   include Helpers
 
   make_query :ufw_status
-
 
   def defaults
     query["Default"]
@@ -51,7 +62,7 @@ class Firewall
 end
 
 
-class Clients
+class Clients < ChecklistSection
 
   @@installed = [:geth,:prysmvalidator,:prysmbeacon]
   include Commands::Systemctl
@@ -67,10 +78,12 @@ class Clients
 
   # @@installed.include? service.to_sym
 
+
+
 end
 
 
-class TimeDate
+class TimeDate < ChecklistSection
   include Commands::Timedatectl
   include Helpers
 
@@ -96,17 +109,21 @@ class TimeDate
 
 end
 
-class Users
+class Users < ChecklistSection
 
   def id(user)
     matches = (%x|id -u #{user.to_s}|)
     matches.empty? ? nil : matches.chomp.to_i
   end
 
+  def admin_exists?
+
+  end
+
 end
 
 
-class System
+class System < ChecklistSection
   include Commands::APT
 
   def system_packages_uptodate?
@@ -133,7 +150,9 @@ class Eth2Checklist
   def initialize(config=nil)
     @config = config
     @@api_config.each do |methode,klass|
-      instance_variable_set("@"+methode.to_s,klass.new)
+      k = klass.new
+      instance_variable_set("@"+methode.to_s,k)
+      k.checklist = self
     end
     config_from_file if File.exists? @@default_config_file
   end
