@@ -1,0 +1,12 @@
+ports:
+  geth: 30303
+  prysm:
+    tcp: 13000
+    udp: 12000
+
+directories:
+  geth: /var/lib/goethereum
+
+users:
+  admin: tfj
+  geth: goeth  
