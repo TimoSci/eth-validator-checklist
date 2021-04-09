@@ -109,6 +109,7 @@ class TimeDate < ChecklistSection
 
 end
 
+
 class Users < ChecklistSection
 
   attr_accessor :current_user
