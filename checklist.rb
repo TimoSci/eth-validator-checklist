@@ -1,6 +1,7 @@
 require_relative './cmd_to_hash.rb'
 require_relative './file_parsing.rb'
 
+require 'yaml'
 
 module Helpers
 
@@ -127,17 +128,23 @@ class Eth2Checklist
     system: System
   }
 
-  def initialize(config=nil)
+  @@default_config_file="./config.yml"
 
+  def initialize(config=nil)
     @config = config
     @@api_config.each do |methode,klass|
       instance_variable_set("@"+methode.to_s,klass.new)
     end
+    config_from_file if File.exists? @@default_config_file
   end
 
   @@api_config.keys.each do |methode|
     attr_reader methode
   end
   attr_reader :config
+
+  def config_from_file(file=@@default_config_file)
+    @config = YAML::load(File.read(file))
+  end
 
 end

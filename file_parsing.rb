@@ -9,8 +9,6 @@ module FileParsing
         raise 'not a valid service name' if (service=service.to_s).empty?
         f = File.read("/etc/systemd/system/#{service}.service")
         parse_config_file(f)
-        # f.scan( /(^\[\S+\]$)\n(.+)/ )
-        # binding.pry
       end
 
       def parse_config_file(file)
