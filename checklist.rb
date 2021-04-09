@@ -1,4 +1,5 @@
 require_relative './cmd_to_hash.rb'
+require_relative './file_parsing.rb'
 
 
 module Helpers
@@ -24,7 +25,7 @@ end
 
 class Firewall
 
-  include UFW
+  include Commands::UFW
   include Helpers
 
   make_query :ufw_status
@@ -51,7 +52,9 @@ end
 
 class Clients
 
-  include Systemctl
+  @@installed = [:geth,:prysmvalidator,:prysmbeacon]
+  include Commands::Systemctl
+  include FileParsing::Systemctl
 
   # def query(job)
   #   @query = systemctl_status(job)
@@ -61,11 +64,13 @@ class Clients
   #   @query
   # end
 
+  # @@installed.include? service.to_sym
+
 end
 
 
 class TimeDate
-  include Timedatectl
+  include Commands::Timedatectl
   include Helpers
 
   make_query :timedatectl
@@ -101,7 +106,7 @@ end
 
 
 class System
-  include APT
+  include Commands::APT
 
   def system_packages_uptodate?
     apt_list_upgradable.size == 0

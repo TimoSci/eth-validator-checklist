@@ -1,6 +1,7 @@
 #
 # Library for converting outputs of Linux commands to Ruby Hashes
 
+module Commands
 #
 # Module for command 'ufw'
 #
@@ -103,4 +104,5 @@ module APT
     end
   end
 
+end
 end
