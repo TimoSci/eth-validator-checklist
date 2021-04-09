@@ -90,16 +90,17 @@ end
 #
 module APT
 
-  def apt_list
+  def apt_list_upgradable
+    apt_list("upgradable")
+  end
 
+  def apt_list(option)
     {}.tap do |out|
-      (%x|apt list --upgradable|).each_line do |line|
-        match = line.scan( /^(\w+)\/(.*)$/ )[0]
+      (%x|apt list --#{option}|).each_line do |line|
+        match = line.scan( /^([^\s\/]+)\/(.*)$/ )[0]
         out [match[0]] = match[1] if match
       end
     end
-
-
   end
 
 end

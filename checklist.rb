@@ -4,6 +4,7 @@ require_relative './cmd_to_hash.rb'
 module Helpers
 
   def self.included(base)
+
     def base.make_query(meth)
       define_method(:query) do
           @query = send(meth)
@@ -13,6 +14,7 @@ module Helpers
           @query
       end
     end
+
   end
 
 end
@@ -82,6 +84,7 @@ class TimeDate
      key && query[key]
   end
 
+
   #GETH time eth.getBlock(eth.blockNumber)["timestamp"]
   # Time.now.to_i
 
@@ -97,6 +100,16 @@ class Users
 end
 
 
+class System
+  include APT
+
+  def system_packages_uptodate?
+    apt_list_upgradable.size == 0
+  end
+
+
+end
+
 
 
 class Eth2Checklist
@@ -106,6 +119,7 @@ class Eth2Checklist
     clients: Clients,
     users: Users,
     timedate: TimeDate,
+    system: System
   }
 
   def initialize(config=nil)
