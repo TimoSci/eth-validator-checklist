@@ -39,6 +39,8 @@ namespace :checklist do
 
   checklist = Eth2Checklist.new
 
+  task all: ["users:all","firewall:all"]
+
   desc "Checking Users"
   namespace :users do
 
@@ -54,14 +56,34 @@ namespace :checklist do
 
   end
 
-  # desc "Checking System"
-  # namespace :system do
-  #
-  #   "Checkin if packages are up to date"
-  #   task :packages do
-  #   end
-  #
-  # end
+
+  desc "Checking System"
+  namespace :system do
+
+    desc "Checking if packages are up to date"
+    task :packages do
+      check checklist.system.packages_uptodate?, "System packages need to be updated"
+    end
+
+  end
+
+
+  desc "Checking Firewall"
+  namespace :firewall do
+
+    desc "Checking if  UFW is active"
+    task :active do
+      check checklist.firewall.active?, "UFW is not active"
+    end
+
+    desc "Checking if UFW incoming is set to default deny"
+    task :incoming do
+      check checklist.firewall.default_incoming_deny?, "UFW is not denying incoming connections"
+    end
+
+    task all: [:active,:incoming]
+
+  end
 
 
 end

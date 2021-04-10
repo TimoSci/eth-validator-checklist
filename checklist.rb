@@ -59,6 +59,24 @@ class Firewall < ChecklistSection
     defaults["incoming"] == "deny"
   end
 
+  def open_ports
+    query[:ports].select{|p| p[:action] =~ /allow\s+in/i}
+  end
+
+  def port_incomig_open?(port,type=nil)
+    ports = open_ports.select{|p| p[:to].to_i == port}
+    !ports.empty?
+  end
+
+  def ports_open?
+    checklist.config[:ports].each do |k,v|
+      if v.is_a? Numeric
+        port_open?(v)
+      else
+      end
+    end
+  end
+
 end
 
 
@@ -133,7 +151,7 @@ end
 class System < ChecklistSection
   include Commands::APT
 
-  def system_packages_uptodate?
+  def packages_uptodate?
     apt_list_upgradable.size == 0
   end
 
