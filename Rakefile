@@ -71,17 +71,25 @@ namespace :checklist do
   desc "Checking Firewall"
   namespace :firewall do
 
+    firewall = checklist.firewall
+
     desc "Checking if  UFW is active"
     task :active do
-      check checklist.firewall.active?, "UFW is not active"
+      check firewall.active?, "UFW is not active"
     end
 
     desc "Checking if UFW incoming is set to default deny"
     task incoming: [:active] do
-      check checklist.firewall.default_incoming_deny?, "UFW is not denying incoming connections"
+      check firewall.default_incoming_deny?, "UFW is not denying incoming connections"
     end
 
-    task all: [:active,:incoming]
+    desc "Checking wether ports listed in configuration file are open to incoming connections"
+    task open_ports: [:active] do
+      closed_ports = firewall.config_ports_closed
+      check closed_ports.empty?, "Ports #{closed_ports} are closed to incoming connections"
+    end
+
+    task all: [:active,:incoming,:open_ports]
 
   end
 

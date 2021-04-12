@@ -1,34 +1,11 @@
 require_relative './cmd_to_hash.rb'
 require_relative './file_parsing.rb'
 require_relative './monads.rb'
+require_relative './helpers.rb'
 
 require 'yaml'
 
-module Helpers
 
-  def self.included(base)
-
-    def base.make_query(meth)
-      # memoization
-      define_method(:query) do
-          @query = Optional.new(send(meth) )
-          def query
-            @query
-          end
-          @query
-      end
-    end
-
-    # def base.belongs_to(parent)
-    #   @parent = parent
-    #   define_method(parent) do
-    #     @parent
-    #   end
-    # end
-
-  end
-
-end
 
 
 
@@ -57,11 +34,16 @@ class Firewall < ChecklistSection
   end
 
   def default_incoming_deny?
+    # active? && defaults["incoming"] == "deny"
     active? && defaults["incoming"] == "deny"
   end
 
-  def open_ports
+  def open_ports_raw
     query[:ports] && query[:ports].select{|p| p[:action] =~ /allow\s+in/i}
+  end
+
+  def open_ports
+    open_ports_raw.map{|h| h[:to].to_i}
   end
 
   def port_incomig_open?(port,type=nil)
@@ -69,14 +51,13 @@ class Firewall < ChecklistSection
     !ports.empty?
   end
 
-  def ports_open?
-    return nil unless checklist.config[:ports]
-    checklist.config[:ports].each do |k,v|
-      if v.is_a? Numeric
-        port_open?(v)
-      else
-      end
-    end
+  def config_ports
+    return [] unless (ports=checklist.config[:ports])
+    ports.trample
+  end
+
+  def config_ports_closed
+    config_ports - open_ports
   end
 
 end
