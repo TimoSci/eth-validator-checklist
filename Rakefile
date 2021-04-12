@@ -77,7 +77,7 @@ namespace :checklist do
     end
 
     desc "Checking if UFW incoming is set to default deny"
-    task :incoming do
+    task incoming: [:active] do
       check checklist.firewall.default_incoming_deny?, "UFW is not denying incoming connections"
     end
 

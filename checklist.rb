@@ -56,7 +56,7 @@ class Firewall < ChecklistSection
   end
 
   def default_incoming_deny?
-    defaults["incoming"] == "deny"
+    active? && defaults["incoming"] == "deny"
   end
 
   def open_ports
