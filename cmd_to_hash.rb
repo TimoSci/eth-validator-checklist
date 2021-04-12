@@ -12,9 +12,10 @@ module UFW
   end
 
   def parse(s)
+    return nil if s.empty?
     out = {}
     a = s.split("\n")
-    i = a.index("")
+    i = a.index("") || (s.size-1)
 
     a[0..i].each do |line|
       match = line.scan(/^(\w+):\s*(.*)\s*/)[0]
@@ -29,6 +30,7 @@ module UFW
       end
     end
 
+    return out unless a[i+1]
     a[(i+1)..-1].each do |line|
       match = line.scan(/(^\d+\s?\S+)\s{2,}(\w+\s?\S+)\s{2,}(\S+\s?\S+)/)[0]
       if match
