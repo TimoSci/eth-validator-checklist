@@ -1,5 +1,6 @@
 require_relative './cmd_to_hash.rb'
 require_relative './file_parsing.rb'
+require_relative './monads.rb'
 
 require 'yaml'
 
@@ -10,7 +11,7 @@ module Helpers
     def base.make_query(meth)
       # memoization
       define_method(:query) do
-          @query = send(meth)
+          @query = Optional.new(send(meth) )
           def query
             @query
           end
@@ -60,7 +61,7 @@ class Firewall < ChecklistSection
   end
 
   def open_ports
-    query[:ports].select{|p| p[:action] =~ /allow\s+in/i}
+    query[:ports] && query[:ports].select{|p| p[:action] =~ /allow\s+in/i}
   end
 
   def port_incomig_open?(port,type=nil)
@@ -69,6 +70,7 @@ class Firewall < ChecklistSection
   end
 
   def ports_open?
+    return nil unless checklist.config[:ports]
     checklist.config[:ports].each do |k,v|
       if v.is_a? Numeric
         port_open?(v)
