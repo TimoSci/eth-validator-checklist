@@ -77,15 +77,25 @@ class Clients < ChecklistSection
   def installation_directory(client)
     dir = checklist.config[:directories][client]
     return nil unless dir
-    Dir.exists?(dir) && Dir.entries
+    Dir.exists?(dir) ? Dir.entries(dir) : nil
+  end
+
+  def owner(dir)
+    checklist.users.find_by_id(File.stat(dir).uid)
+  end
+
+  def install_dir_owner(client)
+    dir = checklist.config[:directories][client]
+    dir && owner(dir)
+  end
+
+  def owner_correct?(client)
+    return false unless (user = checklist.config[:users][client])
+    install_dir_owner(client) == user
   end
 
   # @@installed.include? service.to_sym
 end
-
-
-
-
 
 
 
@@ -119,11 +129,18 @@ end
 
 class Users < ChecklistSection
 
+
   attr_accessor :current_user
 
   def id(user)
     matches = (%x|id -u #{user.to_s}|)
     matches.empty? ? nil : matches.chomp.to_i
+  end
+
+  def find_by_id(id)
+    q = %x|getent passwd #{id}|
+    match = q.scan(/^([^:^\s]+):/ )[0]
+    match && match[0]
   end
 
   def get_current_user
