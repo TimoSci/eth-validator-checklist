@@ -63,25 +63,30 @@ class Firewall < ChecklistSection
 end
 
 
+
 class Clients < ChecklistSection
 
-  @@installed = [:geth,:prysmvalidator,:prysmbeacon]
   include Commands::Systemctl
   include FileParsing::Systemctl
 
-  # def query(job)
-  #   @query = systemctl_status(job)
-  #   def query(job)
-  #     @query
-  #   end
-  #   @query
-  # end
+  def installed
+    checklist.config[:clients]
+  end
+
+  # TODO create a Client class to instatiate individual clients
+  def installation_directory(client)
+    dir = checklist.config[:directories][client]
+    return nil unless dir
+    Dir.exists?(dir) && Dir.entries
+  end
 
   # @@installed.include? service.to_sym
-
-
-
 end
+
+
+
+
+
 
 
 class TimeDate < ChecklistSection
@@ -102,7 +107,7 @@ class TimeDate < ChecklistSection
   end
 
   def ntp_active?
-    ntp_status =~ /active/i 
+    ntp_status =~ /active/i
   end
 
 

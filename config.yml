@@ -1,3 +1,8 @@
+:clients:
+  :eth1: geth
+  :beacon: prysmbeacon
+  :validator: prysmvalidator
+
 :ports:
   :geth: 30303
   :prysm:

@@ -29,15 +29,16 @@ end
 
 namespace :checklist do
 
-  @passfail = Report.new
+  @report = Report.new
   #TODO hide below in Report class
   def check(*args)
-    @passfail.check(*args)
+    @report.check(*args)
   end
 
   checklist = Eth2Checklist.new
 
   task all: ["users:all","system:packages","firewall:all","timekeeping:all"]
+
 
   desc "Checking Users"
   namespace :users do
@@ -108,6 +109,20 @@ namespace :checklist do
     end
 
     task all: [:active,:incoming,:open_ports]
+
+  end
+
+  desc "Checking Clients"
+  namespace :clients do
+
+    clients = checklist.clients
+
+    desc "Check whether installation directories exist"
+    task :directories do
+      clients.installed.each do |client|
+        check clients.installation_directory(client), "No installation directory found for #{client.to_s}"
+      end
+    end
 
   end
 
