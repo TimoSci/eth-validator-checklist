@@ -4,7 +4,7 @@ require 'pry'
 desc "Check whether users exist"
 
 
-class PassFail
+class Report
 
   attr_accessor :log, :passes, :fails
 
@@ -31,8 +31,8 @@ end
 
 namespace :checklist do
 
-  @passfail = PassFail.new
-  #TODO hide below in PassFail class
+  @passfail = Report.new
+  #TODO hide below in Report class
   def check(*args)
     @passfail.check(*args)
   end
@@ -83,7 +83,7 @@ namespace :checklist do
       check firewall.default_incoming_deny?, "UFW is not denying incoming connections"
     end
 
-    desc "Checking wether ports listed in configuration file are open to incoming connections"
+    desc "Checking whether ports listed in configuration file are open to incoming connections"
     task open_ports: [:active] do
       closed_ports = firewall.config_ports_closed
       check closed_ports.empty?, "Ports #{closed_ports} are closed to incoming connections"
