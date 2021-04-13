@@ -1,8 +1,6 @@
 require_relative "./checklist.rb"
 require 'pry'
 
-desc "Check whether users exist"
-
 
 class Report
 
@@ -68,17 +66,37 @@ namespace :checklist do
   end
 
 
+  desc "Checking Timekeeping"
+  namespace :timekeeping do
+
+    timedate = checklist.timedate
+
+    desc "Check whether system time is synchronized"
+    task :synchronized do
+      check timedate.clock_synchronized?, "System clock is not synchronized"
+    end
+
+    desc "Check whether NTP service is active"
+    task :ntp do
+      check timedate.ntp_active?, "NTP Service is not active"
+    end
+
+    task all: [:synchronized,:ntp]
+
+  end
+
+
   desc "Checking Firewall"
   namespace :firewall do
 
     firewall = checklist.firewall
 
-    desc "Checking if  UFW is active"
+    desc "Checking whether UFW is active"
     task :active do
       check firewall.active?, "UFW is not active"
     end
 
-    desc "Checking if UFW incoming is set to default deny"
+    desc "Checking whether UFW incoming is set to default deny"
     task incoming: [:active] do
       check firewall.default_incoming_deny?, "UFW is not denying incoming connections"
     end

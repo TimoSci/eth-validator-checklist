@@ -96,12 +96,13 @@ class TimeDate < ChecklistSection
     !!( /\s*yes\s*/ =~  query[key] )
   end
 
-  def ntp_active?
-  end
-
   def ntp_status
      key = query.keys.find{|s| /NTP\s+service/i =~ s}
      key && query[key]
+  end
+
+  def ntp_active?
+    ntp_status =~ /active/i 
   end
 
 
