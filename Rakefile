@@ -37,7 +37,7 @@ namespace :checklist do
 
   checklist = Eth2Checklist.new
 
-  task all: ["users:all","firewall:all"]
+  task all: ["users:all","system:packages","firewall:all","timekeeping:all"]
 
   desc "Checking Users"
   namespace :users do
