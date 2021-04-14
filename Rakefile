@@ -37,7 +37,7 @@ namespace :checklist do
 
   checklist = Eth2Checklist.new
 
-  task all: ["users:all","system:packages","firewall:all","timekeeping:all"]
+  task all: ["clients:all","users:all","system:packages","firewall:all","timekeeping:all"]
 
 
   desc "Checking Users"
@@ -123,10 +123,11 @@ namespace :checklist do
         client = client.to_sym
         dir = clients.installation_directory(client)
         check dir, "No installation directory found for #{client.to_s}"
-        check clients.owner_correct?(client), "Installation directory #{dir} has wrong owner"
+        check clients.owner_correct?(client), "Installation directory #{dir} for client #{client} has wrong owner" if dir
       end
     end
 
+    task all: [:directories]
 
   end
 
