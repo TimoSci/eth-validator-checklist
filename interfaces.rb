@@ -18,7 +18,7 @@ class Interface
 end
 
 
-class GethClient < Interface
+class GethInterface < Interface
 
   def latest_block
     connection.eth_getBlockByNumber('latest', true)

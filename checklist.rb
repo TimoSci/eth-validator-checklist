@@ -72,7 +72,7 @@ class Clients < ChecklistSection
   include FileParsing::Systemctl
 
   def initialize
-    @geth = GethClient.new
+    @geth = GethInterface.new
   end
 
   attr_accessor :geth
