@@ -2,6 +2,8 @@ require_relative 'cmd_to_hash'
 require_relative 'file_parsing'
 require_relative 'monads'
 require_relative 'helpers'
+require_relative 'node'
+require_relative 'service'
 require_relative 'interfaces'
 
 
@@ -12,6 +14,9 @@ require 'yaml'
 
 
 class ChecklistSection
+  def initialize(checklist=nil)
+    @checklist = checklist
+  end
   attr_accessor :checklist
 end
 
@@ -71,8 +76,9 @@ class Clients < ChecklistSection
   include Commands::Systemctl
   include FileParsing::Systemctl
 
-  def initialize
-    @geth = GethInterface.new
+  def initialize(checklist=nil)
+    super(checklist)
+    @geth = Node.new(:geth,checklist)
   end
 
   attr_accessor :geth
@@ -90,7 +96,7 @@ class Clients < ChecklistSection
   end
 
   def owner(dir)
-    checklist.users.find_by_id(File.stat(dir).uid)
+    checklist.users.owner(dir)
   end
 
   def install_dir_owner(client)
@@ -175,6 +181,10 @@ class Users < ChecklistSection
     self.current_user = get_current_user
   end
 
+  def owner(dir)
+    find_by_id(File.stat(dir).uid)
+  end
+
 end
 
 
@@ -205,9 +215,9 @@ class Eth2Checklist
   def initialize(config=nil)
     @config = config
     @@api_config.each do |methode,klass|
-      k = klass.new
+      k = klass.new(self)
       instance_variable_set("@"+methode.to_s,k)
-      k.checklist = self
+      # k.checklist = self
     end
     config_from_file if File.exists? @@default_config_file
   end
