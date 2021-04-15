@@ -14,7 +14,7 @@ GEM
     ruby2_keywords (0.0.4)
 
 PLATFORMS
-  ruby
+  x86_64-linux
 
 DEPENDENCIES
   jsonrpc-client

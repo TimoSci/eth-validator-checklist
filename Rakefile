@@ -137,6 +137,16 @@ namespace :checklist do
       check clients.geth.block_synchronized? , "Latest block in geth client appears to be out of date"
     end
 
+    desc "Check if geth service is loaded"
+    task :geth_loaded do
+      check clients.service_loaded?(:geth), "Service for geth is not loaded"
+    end
+
+    desc "Check if geth service is active"
+    task :geth_active do
+      check clients.service_active?(:geth), "Service for geth is not active"
+    end
+
     task all: [:directories]
 
   end
