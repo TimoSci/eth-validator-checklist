@@ -127,6 +127,16 @@ namespace :checklist do
       end
     end
 
+    desc "Check whether geth endpoint is reachable"
+    task :reachable do
+      check clients.geth.req_status == 200 , "Request to geth http client not successful"
+    end
+
+    desc "Check if geth block is up to date"
+    task geth_synchronized: [:reachable] do
+      check clients.geth.block_synchronized? , "Latest block in geth client appears to be out of date"
+    end
+
     task all: [:directories]
 
   end

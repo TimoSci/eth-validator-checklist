@@ -1,7 +1,9 @@
-require_relative './cmd_to_hash.rb'
-require_relative './file_parsing.rb'
-require_relative './monads.rb'
-require_relative './helpers.rb'
+require_relative 'cmd_to_hash'
+require_relative 'file_parsing'
+require_relative 'monads'
+require_relative 'helpers'
+require_relative 'interfaces'
+
 
 require 'yaml'
 
@@ -68,6 +70,13 @@ class Clients < ChecklistSection
 
   include Commands::Systemctl
   include FileParsing::Systemctl
+
+  def initialize
+    @geth = GethClient.new
+  end
+
+  attr_accessor :geth
+
 
   def installed
     checklist.config[:clients]

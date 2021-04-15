@@ -10,7 +10,7 @@
     :udp: 12000
 
 :directories:
-  :geth: /var/lib/goethereum
+  :geth:  /media/tfj/blockchains/goethereum/
 
 :users:
   :geth: goeth
