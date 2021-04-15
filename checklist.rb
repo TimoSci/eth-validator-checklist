@@ -78,35 +78,26 @@ class Clients < ChecklistSection
 
   def initialize(checklist=nil)
     super(checklist)
-    @geth = Node.new(:geth,checklist)
+    @installed = []
+    installed = checklist.config[:clients]
+    installed.values.each do |client|
+      node = Node.new(client.to_sym,checklist)
+      instance_variable_set "@"+client, node
+      define_singleton_method(client.to_sym) do
+        node
+      end
+      @installed << node
+    end
+
   end
 
-  attr_accessor :geth
-
-
-  def installed
-    checklist.config[:clients]
-  end
+  attr_accessor :installed
 
   # TODO create a Client class to instatiate individual clients
-  def installation_directory(client)
-    dir = checklist.config[:directories][client]
-    return nil unless dir
-    Dir.exists?(dir) ? Dir.entries(dir) : nil
-  end
+
 
   def owner(dir)
     checklist.users.owner(dir)
-  end
-
-  def install_dir_owner(client)
-    dir = checklist.config[:directories][client]
-    dir && owner(dir)
-  end
-
-  def owner_correct?(client)
-    return false unless (user = checklist.config[:users][client])
-    install_dir_owner(client) == user
   end
 
 
@@ -203,8 +194,8 @@ end
 class Eth2Checklist
 
   @@api_config = {
-    firewall: Firewall,
     clients: Clients,
+    firewall: Firewall,
     users: Users,
     timedate: TimeDate,
     system: System
@@ -214,12 +205,12 @@ class Eth2Checklist
 
   def initialize(config=nil)
     @config = config
+    config_from_file if File.exists? @@default_config_file
     @@api_config.each do |methode,klass|
       k = klass.new(self)
       instance_variable_set("@"+methode.to_s,k)
       # k.checklist = self
     end
-    config_from_file if File.exists? @@default_config_file
   end
 
   @@api_config.keys.each do |methode|

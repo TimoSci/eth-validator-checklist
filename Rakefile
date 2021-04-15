@@ -119,11 +119,11 @@ namespace :checklist do
 
     desc "Check whether installation directories exist and have correct owners"
     task :directories do
-      clients.installed.values.each do |client|
-        client = client.to_sym
-        dir = clients.installation_directory(client)
-        check dir, "No installation directory found for #{client.to_s}"
-        check clients.owner_correct?(client), "Installation directory #{dir} for client #{client} has wrong owner" if dir
+      clients.installed.each do |client|
+        name = client.name.to_s
+        dir = client.installation_directory
+        check dir, "No installation directory found for #{name}"
+        check client.owner_correct?, "Installation directory #{dir} for client #{name} has wrong owner" if dir
       end
     end
 
