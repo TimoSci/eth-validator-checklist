@@ -139,6 +139,13 @@ namespace :checklist do
       check interface.block_synchronized? , "Latest block in geth client appears to be out of date"
     end
 
+    desc "Check if peers are connected to geth"
+    task geth_peercount: [:reachable] do
+      check interface.min_peercount? , "Not enough peers are connected to geth"
+    end
+
+    #
+
     desc "Check if geth service is loaded"
     task :geth_loaded do
       check clients.geth.service.loaded?, "Service for geth is not loaded"
@@ -149,7 +156,7 @@ namespace :checklist do
       check clients.geth.service.active?, "Service for geth is not active"
     end
 
-    task geth: [:geth_loaded,:geth_active,:geth_synchronized]
+    task geth: [:geth_loaded,:geth_active,:geth_synchronized, :geth_peercount]
     task all: [:directories, :geth]
 
   end

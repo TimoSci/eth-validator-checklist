@@ -41,6 +41,7 @@ class GethInterface < Interface
   end
 
   def synchronized?
+    return nil unless req_status
     !connection.eth_syncing
   end
 
@@ -49,6 +50,7 @@ class GethInterface < Interface
   end
 
   def min_peercount?
+    return nil unless req_status
     peercount > node.checklist.config[:geth][:minpeercount]
   end
 
