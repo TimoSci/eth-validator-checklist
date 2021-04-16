@@ -143,27 +143,32 @@ namespace :checklist do
       check clients.geth.service.enabled?, "Service for geth is not enabled on startup"
     end
 
-    task geth: [:geth_loaded,:geth_active,:geth_synchronized, :geth_peercount, :geth_enabled]
+
+
+
+    namespace :geth do
+
+      interface = clients.geth.interface
+
+      desc "Check whether geth endpoint is reachable"
+      task :reachable do
+        check interface.req_status == 200 , "Request to geth http client not successful"
+      end
+
+      desc "Check if geth block is up to date"
+      task block_synchronized: [:reachable] do
+        check interface.block_synchronized? , "Latest block in geth client appears to be out of date"
+      end
+
+      desc "Check if peers are connected to geth"
+      task peercount: [:reachable] do
+        check interface.min_peercount? , "Not enough peers are connected to geth"
+      end
+
+    end
+
+    task geth: [:geth_loaded,:geth_active,:geth_enabled, "geth:block_synchronized", "geth:peercount"]
     task all: [:directories, :geth]
-
-
-    interface = clients.geth.interface
-
-    desc "Check whether geth endpoint is reachable"
-    task :reachable do
-      check interface.req_status == 200 , "Request to geth http client not successful"
-    end
-
-    desc "Check if geth block is up to date"
-    task geth_synchronized: [:reachable] do
-      check interface.block_synchronized? , "Latest block in geth client appears to be out of date"
-    end
-
-    desc "Check if peers are connected to geth"
-    task geth_peercount: [:reachable] do
-      check interface.min_peercount? , "Not enough peers are connected to geth"
-    end
-
     #
 
 
