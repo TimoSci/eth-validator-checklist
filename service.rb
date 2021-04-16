@@ -12,23 +12,24 @@ class Service
 
   def initialize(client)
     @client = client
-    @name = client.name
+    # @name = client.name
   end
-  attr_accessor :client, :name
-  # make_query :systemctl_status(:geth) # TODO get client name from client class
+  attr_accessor :client # TODO get client name from client class
 
-  def load_status
-    systemctl_status(name)["Loaded"]
+  def status
+     systemctl_status(client.name)
   end
+
+  make_query :status
 
   def loaded?
-     status = load_status
-     status && status[:value] == "loaded"
+     s = query["Loaded"]
+     s && s[:value] == "loaded"
   end
 
   def active?
-    status = systemctl_status(name)["Active"]
-    status && status[:value] == "active"
+    s = query["Active"]
+    s && s[:value] == "active"
   end
 
 end
