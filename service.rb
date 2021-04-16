@@ -12,9 +12,8 @@ class Service
 
   def initialize(client)
     @client = client
-    # @name = client.name
   end
-  attr_accessor :client # TODO get client name from client class
+  attr_accessor :client
 
   def status
      systemctl_status(client.name)
