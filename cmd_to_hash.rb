@@ -60,10 +60,15 @@ module Systemctl
     s.each_line do |line|
       match = line.scan( /^\s*(\w.*\w):\s+(.+)\s+(\(.*)$/ )[0]
       if match
-        out[match[0]] = {value: match[1], info: match[2]}
+        out[match[0]] = {value: match[1], info: parse_info(match[2])}
       end
     end
     out
+  end
+
+  def parse_info(info)
+    return nil unless (match = info.scan( /\((.*)\)/ )[0] )
+    match[0].split(";").map{|s| s.strip}
   end
 
 end
