@@ -12,8 +12,9 @@
 :directories:
   :geth:  /media/tfj/blockchains/goethereum/
 
-
-
 :users:
   :geth: goeth
   :prysm: prysm
+
+:geth:
+  :minpeercount: 8

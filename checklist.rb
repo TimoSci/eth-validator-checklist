@@ -94,7 +94,7 @@ class Clients < ChecklistSection
 
     case name
     when :geth
-      node.interface = GethInterface.new
+      node.set_interface GethInterface.new
     end
 
     end

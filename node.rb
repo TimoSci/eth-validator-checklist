@@ -18,6 +18,11 @@ class Node
   #   checklist.users.find_by_id(File.stat(dir).uid)
   # end
 
+  def set_interface(interface)
+    @interface = interface
+    interface.node = self
+  end
+
 
   def installation_directory
     dir = checklist.config[:directories][name]

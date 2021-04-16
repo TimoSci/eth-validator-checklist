@@ -11,6 +11,8 @@ class Interface
     @connection = JSONRPC::Client.new(endpoint)
   end
 
+  attr_accessor :node
+
   def req_status
     Faraday.get(endpoint)&.status rescue false
   end
@@ -36,6 +38,18 @@ class GethInterface < Interface
     return nil unless req_status
     tolerance = 180 # Maximum tolarated time between latest block timestamp and system time
     (Time.now.to_i - latest_block_timestamp).abs < tolerance
+  end
+
+  def synchronized?
+    !connection.eth_syncing
+  end
+
+  def peercount
+    connection.net_peerCount.to_i(16)
+  end
+
+  def min_peercount?
+    peercount > node.checklist.config[:geth][:minpeercount]
   end
 
 end
