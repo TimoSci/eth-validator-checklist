@@ -11,7 +11,9 @@
 
 :directories:
   :geth: /var/lib/goethereum
+  :prysmbeacon: /var/lib/prysm/beacon
 
 :users:
   :geth: goeth
-  :prysm: prysm
+  :prysm: prysmbeacon
+  :validator: prysmvalidator

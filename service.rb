@@ -22,13 +22,21 @@ class Service
   make_query :status
 
   def loaded?
-     s = query["Loaded"]
-     s && s[:value] == "loaded"
+    s = query["Loaded"]
+    s && s[:value] == "loaded"
   end
 
   def active?
     s = query["Active"]
     s && s[:value] == "active"
+  end
+
+  def enabled?
+    s = query["Loaded"]
+    return nil unless s
+    info = s[:info]
+    return nil unless info
+    !!(info[1] =~ /enabled/) 
   end
 
 end

@@ -127,6 +127,26 @@ namespace :checklist do
       end
     end
 
+
+    desc "Check if geth service is loaded"
+    task :geth_loaded do
+      check clients.geth.service.loaded?, "Service for geth is not loaded"
+    end
+
+    desc "Check if geth service is active"
+    task :geth_active do
+      check clients.geth.service.active?, "Service for geth is not active"
+    end
+
+    desc "Check if geth service is enabled on startup"
+    task :geth_enabled do
+      check clients.geth.service.enabled?, "Service for geth is not enabled on startup"
+    end
+
+    task geth: [:geth_loaded,:geth_active,:geth_synchronized, :geth_peercount, :geth_enabled]
+    task all: [:directories, :geth]
+
+
     interface = clients.geth.interface
 
     desc "Check whether geth endpoint is reachable"
@@ -146,18 +166,6 @@ namespace :checklist do
 
     #
 
-    desc "Check if geth service is loaded"
-    task :geth_loaded do
-      check clients.geth.service.loaded?, "Service for geth is not loaded"
-    end
-
-    desc "Check if geth service is active"
-    task :geth_active do
-      check clients.geth.service.active?, "Service for geth is not active"
-    end
-
-    task geth: [:geth_loaded,:geth_active,:geth_synchronized, :geth_peercount]
-    task all: [:directories, :geth]
 
   end
 
