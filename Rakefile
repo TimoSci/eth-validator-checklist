@@ -128,28 +128,29 @@ namespace :checklist do
     end
 
 
-    # task :services do
-    #   clients.installed.each do |client|
-    #   name = client.name.to_s
-    #
-    # end
+    clients.installed.each do |client|
+      name = client.name.to_s
 
-    desc "Check if geth service is loaded"
-    task :geth_loaded do
-      check clients.geth.service.loaded?, "Service for geth is not loaded"
+      namespace name.to_sym do
+
+        desc "Check if #{name} service is loaded"
+        task :loaded do
+          check client.service.loaded?, "Service for #{name} is not loaded"
+        end
+
+        desc "Check if #{name} service is active"
+        task :active do
+          check client.service.active?, "Service for #{name} is not active"
+        end
+        #
+        desc "Check if #{name} service is enabled on startup"
+        task enabled: [:loaded]  do
+          check client.service.enabled?, "Service for #{name} is not enabled on startup"
+        end
+
+      end
+
     end
-
-    desc "Check if geth service is active"
-    task :geth_active do
-      check clients.geth.service.active?, "Service for geth is not active"
-    end
-
-    desc "Check if geth service is enabled on startup"
-    task :geth_enabled do
-      check clients.geth.service.enabled?, "Service for geth is not enabled on startup"
-    end
-
-
 
 
     namespace :geth do
