@@ -103,29 +103,10 @@ class Clients < ChecklistSection
 
   attr_accessor :installed
 
-  # TODO create a Client class to instatiate individual clients
-
-
   def owner(dir)
     checklist.users.owner(dir)
   end
 
-
-  # def load_status(client)
-  #   systemctl_status(client)["Loaded"]
-  # end
-  #
-  # def service_loaded?(client)
-  #    status = load_status(client)
-  #    status && status[:value] == "loaded"
-  # end
-  #
-  # def service_active?(client)
-  #   status = systemctl_status(client)["Active"]
-  #   status && status[:value] == "active"
-  # end
-
-  # @@installed.include? service.to_sym
 end
 
 
