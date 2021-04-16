@@ -77,16 +77,26 @@ class Clients < ChecklistSection
   include FileParsing::Systemctl
 
   def initialize(checklist=nil)
+
     super(checklist)
     @installed = []
     installed = checklist.config[:clients]
     installed.values.each do |client|
-      node = Node.new(client.to_sym,checklist)
+      name = client.to_sym
+      node = Node.new(name,checklist)
+      node.service = Service.new(node)
+
       instance_variable_set "@"+client, node
-      define_singleton_method(client.to_sym) do
+      define_singleton_method(name) do
         node
       end
       @installed << node
+
+    case name
+    when :geth
+      node.interface = GethInterface.new
+    end
+
     end
 
   end
@@ -101,19 +111,19 @@ class Clients < ChecklistSection
   end
 
 
-  def load_status(client)
-    systemctl_status(client)["Loaded"]
-  end
-
-  def service_loaded?(client)
-     status = load_status(client)
-     status && status[:value] == "loaded"
-  end
-
-  def service_active?(client)
-    status = systemctl_status(client)["Active"]
-    status && status[:value] == "active"
-  end
+  # def load_status(client)
+  #   systemctl_status(client)["Loaded"]
+  # end
+  #
+  # def service_loaded?(client)
+  #    status = load_status(client)
+  #    status && status[:value] == "loaded"
+  # end
+  #
+  # def service_active?(client)
+  #   status = systemctl_status(client)["Active"]
+  #   status && status[:value] == "active"
+  # end
 
   # @@installed.include? service.to_sym
 end

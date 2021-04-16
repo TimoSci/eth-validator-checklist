@@ -127,27 +127,30 @@ namespace :checklist do
       end
     end
 
+    interface = clients.geth.interface
+
     desc "Check whether geth endpoint is reachable"
     task :reachable do
-      check clients.geth.req_status == 200 , "Request to geth http client not successful"
+      check interface.req_status == 200 , "Request to geth http client not successful"
     end
 
     desc "Check if geth block is up to date"
     task geth_synchronized: [:reachable] do
-      check clients.geth.block_synchronized? , "Latest block in geth client appears to be out of date"
+      check interface.block_synchronized? , "Latest block in geth client appears to be out of date"
     end
 
     desc "Check if geth service is loaded"
     task :geth_loaded do
-      check clients.service_loaded?(:geth), "Service for geth is not loaded"
+      check clients.geth.service.loaded?, "Service for geth is not loaded"
     end
 
     desc "Check if geth service is active"
     task :geth_active do
-      check clients.service_active?(:geth), "Service for geth is not active"
+      check clients.geth.service.active?, "Service for geth is not active"
     end
 
-    task all: [:directories]
+    task geth: [:geth_loaded,:geth_active,:geth_synchronized]
+    task all: [:directories, :geth]
 
   end
 
