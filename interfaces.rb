@@ -1,6 +1,8 @@
 require 'jsonrpc-client'
 require 'faraday'
-
+#
+# Class for wrapping actions associated with an http interface of a client
+#
 #
 class Interface
 

@@ -27,6 +27,11 @@ end
 
 
 
+desc "perform all checklist tasks"
+task "checklist:all" do
+  Rake.application.in_namespace( :checklist ){ |namespace| namespace.tasks.each( &:invoke ) }
+end
+
 namespace :checklist do
 
   @report = Report.new
@@ -36,8 +41,6 @@ namespace :checklist do
   end
 
   checklist = Eth2Checklist.new
-
-  task all: ["clients:all","users:all","system:packages","firewall:all","timekeeping:all"]
 
 
   desc "Checking Users"
@@ -148,6 +151,8 @@ namespace :checklist do
           check client.service.enabled?, "Service for #{name} is not enabled on startup"
         end
 
+        task service_all: [:loaded, :active, :enabled]
+
       end
 
     end
@@ -179,12 +184,15 @@ namespace :checklist do
 
     end
 
-    task geth: [:geth_loaded,:geth_active,:geth_enabled, "geth:block_synchronized", "geth:synchronized", "geth:peercount"]
-    task all: [:directories, :geth]
+    task geth: ["geth:service_all", "geth:block_synchronized", "geth:synchronized", "geth:peercount"]
+    # task all: [:directories, :geth]
     #
 
 
   end
+
+
+
 
 
 end

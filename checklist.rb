@@ -81,9 +81,10 @@ class Clients < ChecklistSection
     super(checklist)
     @installed = []
     installed = checklist.config[:clients]
+    node_class = Node
     installed.values.each do |client|
       name = client.to_sym
-      node = Node.new(name,checklist)
+      node = node_class.new(name,checklist)
       node.service = Service.new(node)
 
       instance_variable_set "@"+client, node

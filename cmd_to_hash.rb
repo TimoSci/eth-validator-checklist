@@ -113,4 +113,10 @@ module APT
 
 end
 
+#
+# Module for command geth
+#
+module Geth
+end
+
 end

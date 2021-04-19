@@ -41,3 +41,13 @@ class Node
   end
 
 end
+
+
+class GethNode < Node
+
+  def version_check
+    response = %x|geth version-check|
+    !!(response =~ /no\s+vulnerabilities\s+found/i)
+  end
+
+end
