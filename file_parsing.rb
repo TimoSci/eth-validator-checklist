@@ -19,9 +19,12 @@ module FileParsing
             match = line.scan( /^\[(\S+)\]$/ )[0]
             if match
               current = match[0]
-              out[current] = []
+              out[current] = {}
             else
-              out[current] << parse_line(line) if out[current]
+              if out[current]
+                key, value = parse_line(line)
+                out[current][key] = value
+              end
             end
           end
         end
@@ -29,7 +32,7 @@ module FileParsing
 
       def parse_line(line)
         match = line.scan(/^(\w+)=\s*(.*)$/)[0]
-        { match[0] => match[1] }
+        [ match[0] , match[1] ]
       end
 
   end
