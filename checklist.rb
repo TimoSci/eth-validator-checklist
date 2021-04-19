@@ -84,6 +84,7 @@ class Clients < ChecklistSection
     node_class = Node
     installed.values.each do |client|
       name = client.to_sym
+      node_class = GethNode if name == :geth
       node = node_class.new(name,checklist)
       node.service = Service.new(node)
 
