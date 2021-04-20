@@ -11,6 +11,8 @@
 
 :directories:
   :geth:  /media/tfj/blockchains/goethereum/
+  :prysmbeacon: /var/lib/prysm/beacon
+  :prysmvalidator: /var/lib/prysm/validator
 
 :users:
   :geth: goeth

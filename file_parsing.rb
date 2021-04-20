@@ -7,7 +7,9 @@ module FileParsing
 
       def config_file(service)
         raise 'not a valid service name' if (service=service.to_s).empty?
-        f = File.read("/etc/systemd/system/#{service}.service")
+        filename = "/etc/systemd/system/#{service}.service"
+        return nil unless File.exist?(filename)
+        f = File.read(filename)
         parse_config_file(f)
       end
 

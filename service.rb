@@ -1,5 +1,7 @@
 require_relative 'cmd_to_hash'
+require_relative 'file_parsing'
 require_relative 'helpers'
+require_relative 'monads'
 
 #
 # class for wrapping the actions of a client's system service
@@ -8,6 +10,7 @@ require_relative 'helpers'
 class Service
 
   include Commands::Systemctl
+  include FileParsing::Systemctl
   include Helpers
 
   def initialize(client)
@@ -36,7 +39,13 @@ class Service
     return nil unless s
     info = s[:info]
     return nil unless info
-    !!(info[1] =~ /enabled/) 
+    !!(info[1] =~ /enabled/)
+  end
+
+  def datadir_correct?
+    data = Optional.new( config_file(client.name) )
+    service_dir = data["Service"]["ExecStart"]["datadir"].value
+    client.config_dir == service_dir
   end
 
 end

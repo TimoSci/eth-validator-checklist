@@ -151,7 +151,12 @@ namespace :checklist do
           check client.service.enabled?, "Service for #{name} is not enabled on startup"
         end
 
-        task service_all: [:loaded, :active, :enabled]
+        desc "Check if #{name} service is configured to correct directory"
+        task :dir  do
+        end
+        check client.service.datadir_correct?, "Service for #{name} does not have correct execution directory"
+
+        task service_all: [:loaded, :active, :enabled, :dir]
 
       end
 

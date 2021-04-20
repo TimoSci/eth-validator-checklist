@@ -24,8 +24,12 @@ class Node
   end
 
 
+  def config_dir
+    checklist.config[:directories][name]
+  end
+
   def installation_directory
-    dir = checklist.config[:directories][name]
+    dir = config_dir
     return nil unless dir
     Dir.exists?(dir) ? Dir.entries(dir) : nil
   end
