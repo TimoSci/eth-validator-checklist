@@ -31,8 +31,25 @@ module FileParsing
       end
 
       def parse_line(line)
+        key, value = parse_line_raw(line)
+        value = parse_exec(value) if key == "ExecStart"
+        [ key , value ]
+      end
+
+      def parse_line_raw(line)
         match = line.scan(/^(\w+)=\s*(.*)$/)[0]
-        [ match[0] , match[1] ]
+        [match[0], match[1]]
+      end
+
+      def parse_exec(string)
+        out = {}
+        string.scan(/--(\w+)/).each do |option|
+          option =  option.first
+          match = string.scan(/#{option}\s+(\S+)(\s+--|$)/)[0]
+          match = match[0] if match
+          out[option] = match
+        end
+        out
       end
 
   end
