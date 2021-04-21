@@ -153,8 +153,13 @@ namespace :checklist do
 
         desc "Check if #{name} service is configured to correct data directory"
         task :dir  do
+          check client.service.datadir_correct?, "Service for #{name} does not have correct data directory"
         end
-        check client.service.datadir_correct?, "Service for #{name} does not have correct data directory"
+
+        desc "Check if #{name} client is latest version"
+        task :latest_version  do
+          check client.current_version_is_latest?, "Client #{name} version does not appear to be latest version #{client.latest_version} "
+        end
 
         task service_all: [:loaded, :active, :enabled, :dir]
 

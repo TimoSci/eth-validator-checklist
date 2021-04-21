@@ -1,8 +1,12 @@
+require_relative 'web-api'
+require_relative 'helpers'
 #
 # Class for wrapping the all the actions associated with a node (eg. geth, prysm)
 #
 
 class Node
+
+  include GithubApi
 
   def initialize(name,checklist,interface=nil,service=nil)
     @name = name
@@ -44,6 +48,19 @@ class Node
     install_dir_owner == user
   end
 
+  def latest_version
+    get_latest_version(checklist.config[:github][name])
+  end
+
+  def current_version
+    ""
+  end
+
+  def current_version_is_latest?
+    return false unless latest_version && current_version
+    latest_version.scan(/\d+/) == current_version.scan(/\d+/)
+  end
+
 end
 
 
@@ -52,6 +69,12 @@ class GethNode < Node
   def version_check
     response = %x|geth version-check|
     !!(response =~ /no\s+vulnerabilities\s+found/i)
+  end
+
+  def current_version
+    response = %x|geth version|
+    version = response.scan /^Version:\s+(.*)$/
+    version.trample[0]
   end
 
 end

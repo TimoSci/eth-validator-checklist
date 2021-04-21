@@ -12,8 +12,20 @@
 :directories:
   :geth: /var/lib/goethereum
   :prysmbeacon: /var/lib/prysm/beacon
+  :prysmvalidator: /var/lib/prysm/validator
+
+:executables:
+  :geth: geth
+  :prysmbeacon: /usr/local/bin/beacon-chain
 
 :users:
   :geth: goeth
   :prysm: prysmbeacon
   :validator: prysmvalidator
+
+:github:
+  :geth: ethereum/go-ethereum
+  :prysmbeacon: prysmaticlabs/prysm
+
+:geth:
+  :minpeercount: 8
