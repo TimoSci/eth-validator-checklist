@@ -77,4 +77,9 @@ class GethNode < Node
     version.trample[0]
   end
 
+  def current_version_http
+    command = %q{curl -H "Content-Type: application/json" -X POST --data '{"jsonrpc":"2.0","method":"web3_clientVersion","params":[],"id":67}' http://127.0.0.1:8545}
+    `#{command}`
+  end
+
 end
