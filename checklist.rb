@@ -195,9 +195,11 @@ class Eth2Checklist
     system: System
   }
 
-  @@default_config_file="./config_default.yml"
+  @@default_config_file = "./config_default.yml"
+  @@config_file = "config.yml"
+
   raise "no default configuration file!" unless File.exists? @@default_config_file
-  @@config_file= @@default_config_file unless File.exists?("config.yml")
+  @@config_file= @@default_config_file unless File.exists?(@@config_file)
 
   def initialize(config=nil)
     @config = config
