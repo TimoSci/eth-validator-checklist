@@ -1,5 +1,11 @@
+desc "create configuration file"
+task :create_config do
+  system("cp config_default.yml config.yml") unless File.exists? "config.yml"
+end
+
 require_relative "./checklist.rb"
-require 'pry'
+
+
 
 
 class Report
@@ -27,8 +33,9 @@ end
 
 
 
+
 desc "perform all checklist tasks"
-task "checklist:all" do
+task "checklist:all" => [:create_config] do
   Rake.application.in_namespace( :checklist ){ |namespace| namespace.tasks.each( &:invoke ) }
 end
 

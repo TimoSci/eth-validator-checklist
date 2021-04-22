@@ -9,7 +9,7 @@ require_relative 'interfaces'
 
 require 'yaml'
 
-
+require 'pry'
 
 
 
@@ -80,6 +80,7 @@ class Clients < ChecklistSection
 
     super(checklist)
     @installed = []
+    return unless checklist.config
     installed = checklist.config[:clients]
     node_class = Node
     installed.values.each do |client|
@@ -194,11 +195,13 @@ class Eth2Checklist
     system: System
   }
 
-  @@default_config_file="./config.yml"
+  @@default_config_file="./config_default.yml"
+  raise "no default configuration file!" unless File.exists? @@default_config_file
+  @@config_file= @@default_config_file unless File.exists?("config.yml")
 
   def initialize(config=nil)
     @config = config
-    config_from_file if File.exists? @@default_config_file
+    config_from_file if File.exists? @@config_file
     @@api_config.each do |methode,klass|
       k = klass.new(self)
       instance_variable_set("@"+methode.to_s,k)
@@ -211,7 +214,7 @@ class Eth2Checklist
   end
   attr_reader :config
 
-  def config_from_file(file=@@default_config_file)
+  def config_from_file(file=@@config_file)
     @config = YAML::load(File.read(file))
   end
 
