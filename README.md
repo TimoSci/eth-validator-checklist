@@ -4,9 +4,9 @@ A Ruby script that runs through a checklist to test whether a ETH2 Linux staking
 
 1. **Ruby** language. In case it is Ruby is not installed, try one of the 2 options:
 
-..* Via **rvm**, in case you want more flexible control over the Ruby version. Following the instructios at https://rvm.io/. Then type `rvm install 3.0.1`
+* Via **rvm**, in case you want more flexible control over the Ruby version. Following the instructios at https://rvm.io/. Then type `rvm install 3.0.1`
 
-..* Directly through the package manager: `sudo snap install ruby`
+* Directly through the package manager: `sudo snap install ruby`
 
 ## Installation
 
