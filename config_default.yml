@@ -17,6 +17,7 @@
 :executables:
   :geth: geth
   :prysmbeacon: /usr/local/bin/beacon-chain
+  :prysmvalidator: /usr/local/bin/validator
 
 :users:
   :geth: goeth
@@ -26,6 +27,8 @@
 :github:
   :geth: ethereum/go-ethereum
   :prysmbeacon: prysmaticlabs/prysm
+  :prysmvalidator: prysmaticlabs/prysm
 
 :geth:
   :minpeercount: 8
+  :http_endpoint: http://127.0.0.1:8545
