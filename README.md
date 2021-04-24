@@ -1,4 +1,4 @@
-A Ruby script that runs through a **pre flight checklist** to test whether a ETH2 Linux staking node is set up correctly.  
+A Ruby script that runs an Ethereum Validator node through a **pre flight checklist**.  
 
 ## Requirements
 
