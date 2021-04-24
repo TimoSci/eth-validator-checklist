@@ -1,4 +1,4 @@
-A Ruby script that runs through a checklist to test whether a ETH2 Linux staking node is set up correctly.
+A Ruby script that runs through a pre flight checklist to test whether a ETH2 Linux staking node is set up correctly.  
 
 ## Requirements
 
@@ -7,6 +7,10 @@ A Ruby script that runs through a checklist to test whether a ETH2 Linux staking
 * Via **rvm**, in case you want more flexible control over the Ruby version. Follow the instructios at https://rvm.io/. Then type `rvm install 3.0.1`
 
 * Directly through the package manager: `sudo snap install ruby`
+
+2. Linux
+
+3. An ETH1 node, and ETH2 Beacon and Validator nodes. Currently this checklist only works with **Geth** and **Prysm**. Support for other clients is planned.
 
 ## Installation
 
