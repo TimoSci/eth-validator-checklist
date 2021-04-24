@@ -47,6 +47,7 @@ class Firewall < ChecklistSection
   end
 
   def open_ports
+    return nil unless active? && open_ports_raw
     open_ports_raw.map{|h| h[:to].to_i}
   end
 
