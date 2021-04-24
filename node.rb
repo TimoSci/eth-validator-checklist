@@ -83,3 +83,17 @@ class GethNode < Node
   end
 
 end
+
+
+class PrysmBeaconNode < Node
+
+  def current_version
+    executable = checklist.config[:executables][:prysmbeacon]
+    return nil unless executable
+    return nil unless File.exists?(executable)
+    response = %x|#{executable} -version|
+    version = response.scan( /\s+Prysm\/(\S)\//i )
+    version.trample[0]
+  end
+
+end

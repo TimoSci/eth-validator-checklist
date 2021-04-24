@@ -76,6 +76,11 @@ class Clients < ChecklistSection
   include Commands::Systemctl
   include FileParsing::Systemctl
 
+  @@custom_nodes = {
+    geth: GethNode,
+    prysmbeacon: PrysmBeaconNode
+  }
+
   def initialize(checklist=nil)
 
     super(checklist)
@@ -85,7 +90,8 @@ class Clients < ChecklistSection
     node_class = Node
     installed.values.each do |client|
       name = client.to_sym
-      node_class = GethNode if name == :geth
+      # node_class = GethNode if name == :geth
+      node_class = @@custom_nodes[name] if @@custom_nodes[name]
       node = node_class.new(name,checklist)
       node.service = Service.new(node)
 
