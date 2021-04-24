@@ -21,8 +21,8 @@
 
 :users:
   :geth: goeth
-  :prysm: prysmbeacon
-  :validator: prysmvalidator
+  :prysmbeacon: prysmbeacon
+  :prysmvalidator: prysmvalidator
 
 :github:
   :geth: ethereum/go-ethereum
