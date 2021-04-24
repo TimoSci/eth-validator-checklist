@@ -2,13 +2,13 @@ A Ruby script that runs an Ethereum Validator node through a **pre flight checkl
 
 ## Requirements
 
-1. **Ruby** language. In case it is Ruby is not installed, try one of the 2 options:
+1. Linux
 
-* Via **rvm**, in case you want more flexible control over the Ruby version. Follow the instructios at https://rvm.io/. Then type `rvm install 3.0.1`
+2. **Ruby** language. In case it is Ruby is not installed, try one of the 2 options:
 
-* Directly through the package manager: `sudo snap install ruby`
+  * Via **rvm**, in case you want more flexible control over the Ruby version. Follow the instructios at https://rvm.io/. Then type `rvm install 3.0.1`
 
-2. Linux
+  * Directly through the package manager: `sudo snap install ruby`
 
 3. An ETH1 node, and ETH2 Beacon and Validator nodes. Currently this checklist only works with **Geth** and **Prysm**. Support for other clients is planned.
 
