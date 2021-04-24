@@ -39,6 +39,6 @@ to enter a password if you are not a superuser.
 
 * A `checklist` object will be loaded. 
 
-* This object has various sub-obects that contain diagnostic methods. Examples: `checklist.clients.geth.version_check`, or `checklist.firewall.active?`
+* This object has various sub-objects that contain diagnostic methods. Examples: `checklist.clients.geth.version_check`, or `checklist.firewall.active?`
 
 *Warning: Untested software. Recommended for use on a test server. Make sure it doesn't cause any problems before running on production server*
