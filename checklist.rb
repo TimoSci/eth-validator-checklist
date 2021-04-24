@@ -9,9 +9,6 @@ require_relative 'interfaces'
 
 require 'yaml'
 
-require 'pry'
-
-
 
 class ChecklistSection
   def initialize(checklist=nil)
