@@ -62,6 +62,7 @@ class Firewall < ChecklistSection
   end
 
   def config_ports_closed
+    return nil unless active? && open_ports
     config_ports - open_ports
   end
 
