@@ -22,9 +22,17 @@ Edit this file if needed. By default it follows the conventions in [Somer Esat's
 
 ## Usage
 
-**Rake** tasks are used to perform checks.
+### Perform checks via **Rake** tasks
 
 * `rake -T` will show all available tasks.
 
 * `rake checklist:all` will go through the entire checklist and report the failed checks. Note: Some of the checks require sudo priviledges so you may need
 to enter a password if you are not a superuser.
+
+### Perform checks manually via Ruby console
+
+* `./console` to start the console
+
+* A `checklist` object will be loaded. 
+
+* This object has various sub-obects that contain diagnostic methods. Examples: `checklist.clients.geth.version_check`, or `checklist.firewall.active?`
