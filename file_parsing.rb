@@ -44,14 +44,15 @@ module FileParsing
       end
 
       def parse_exec(string)
-        out = {}
-        string.scan(/--(\w+)/).each do |option|
-          option =  option.first
-          match = string.scan(/#{option}\s+(\S+)(\s+--|$)/)[0]
-          match = match[0] if match
-          out[option] = match
+        options = {}
+        a = string.delete(' ').split('--')
+        executable = a[0]
+        a[1..-1].each do |pair|
+          option,value = pair.split('=')
+          option =  option
+          options[option] = value
         end
-        out
+        {executable: executable, options:options}
       end
 
   end

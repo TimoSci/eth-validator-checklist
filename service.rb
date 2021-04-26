@@ -44,7 +44,7 @@ class Service
 
   def datadir_correct?
     data = Optional.new( config_file(client.name) )
-    service_dir = data["Service"]["ExecStart"]["datadir"].value
+    service_dir = data["Service"]["ExecStart"][:options]["datadir"].value
     client.config_dir == service_dir
   end
 
