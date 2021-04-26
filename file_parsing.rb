@@ -45,10 +45,11 @@ module FileParsing
 
       def parse_exec(string)
         options = {}
-        a = string.delete(' ').split('--')
+        a = string.split('--')
         executable = a[0]
         a[1..-1].each do |pair|
-          option,value = pair.split('=')
+          pair.strip!
+          option,value = pair.split(/=|\s/)
           option =  option
           options[option] = value
         end
