@@ -29,23 +29,37 @@ class Report
     end
   end
 
+  def print
+    total = passes + fails
+    puts
+    puts "======================================="
+    puts "Checklist Report:"
+    puts "#{fails} checks out of #{total} failed"
+    puts "#{passes} checks out of #{total} passed"
+    puts "All Checks Passed!" if passes > 0 && fails == 0
+    puts "======================================="
+  end
+
 end
 
 
+
+
+@report = Report.new
+#TODO hide below in Report class
+def check(*args)
+  @report.check(*args)
+end
 
 
 desc "perform all checklist tasks"
 task "checklist:all" => [:create_config] do
   Rake.application.in_namespace( :checklist ){ |namespace| namespace.tasks.each( &:invoke ) }
+  @report.print
 end
 
 namespace :checklist do
 
-  @report = Report.new
-  #TODO hide below in Report class
-  def check(*args)
-    @report.check(*args)
-  end
 
   checklist = Eth2Checklist.new
 
