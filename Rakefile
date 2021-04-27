@@ -3,7 +3,7 @@ task :create_config do
   system("cp config_default.yml config.yml") unless File.exists? "config.yml"
 end
 
-require_relative "./checklist.rb"
+require_relative "src/checklist.rb"
 
 
 
