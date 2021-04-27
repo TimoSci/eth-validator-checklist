@@ -4,3 +4,4 @@ source 'https://rubygems.org'
 
 gem 'jsonrpc-client'
 gem 'pry'
+gem 'rspec'
