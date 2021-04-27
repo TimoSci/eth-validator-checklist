@@ -8,7 +8,7 @@ class Interface
 
   attr_accessor :connection, :endpoint
 
-  def initialize(endpoint="http://localhost:8545")
+  def initialize(endpoint)
     @endpoint = endpoint
     @connection = JSONRPC::Client.new(endpoint)
   end
@@ -23,6 +23,10 @@ end
 
 
 class GethInterface < Interface
+
+  def initialize(endpoint="http://localhost:8545")
+    super(endpoint)
+  end
 
   def latest_block
     connection.eth_getBlockByNumber('latest', true)
