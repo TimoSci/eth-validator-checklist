@@ -76,7 +76,7 @@ namespace :checklist do
 
     desc "Checking system reboot-required"
     task :reboot do
-      check checklist.system.reboot_required?, "System needs to be rebooted"
+      check !checklist.system.reboot_required?, "System needs to be rebooted"
     end
 
   end
