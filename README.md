@@ -21,7 +21,7 @@ A Ruby script that runs an Ethereum Validator node through a **pre flight checkl
 3. Type `rake create_config` to initialize configuration file.
 
 4. The configuration file `config.yml` contains your local settings, such as names of data directories, user names, ports etc.
-Edit this file if needed. By default it follows the conventions in [Somer Esat's staking guide](https://someresat.medium.com/guide-to-staking-on-ethereum-2-0-ubuntu-prysm-56f681646f74)
+Edit this file if needed. By default it follows the conventions in [Somer Esat's staking guide](https://someresat.medium.com/guide-to-staking-on-ethereum-2-0-ubuntu-prysm-56f681646f74).
 
 
 ## Usage
@@ -35,7 +35,7 @@ to enter a password if you are not a superuser.
 
 ### Perform checks manually via Ruby console
 
-* `./console` to start the console
+* `./console` to start the console.
 
 * A `checklist` object will be loaded. 
 
