@@ -103,7 +103,9 @@ class Clients < ChecklistSection
 
     case name
     when :geth
-      node.set_interface GethInterface.new
+      endpoint = checklist.config[:geth][:http_endpoint]
+      endpoint = GethInterface.default_endpoint unless endpoint
+      node.set_interface GethInterface.new(endpoint)
     end
 
     end

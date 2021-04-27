@@ -24,7 +24,12 @@ end
 
 class GethInterface < Interface
 
-  def initialize(endpoint="http://localhost:8545")
+  @@default_endpoint =   "http://localhost:8545"
+  def self.default_endpoint
+      @@default_endpoint
+  end
+
+  def initialize(endpoint=@@default_endpoint)
     super(endpoint)
   end
 
