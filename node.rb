@@ -92,7 +92,7 @@ class PrysmBeaconNode < Node
     return nil unless executable
     return nil unless File.exists?(executable)
     response = %x|#{executable} -version|
-    version = response.scan( /\s+Prysm\/(\S)\//i )
+    version = response.scan( /\s+Prysm[\/]([^\/]+)\//i )
     version.trample[0]
   end
 
