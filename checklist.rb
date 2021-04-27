@@ -77,7 +77,8 @@ class Clients < ChecklistSection
 
   @@custom_nodes = {
     geth: GethNode,
-    prysmbeacon: PrysmBeaconNode
+    prysmbeacon: PrysmNode,
+    prysmvalidator: PrysmNode
   }
 
   def initialize(checklist=nil)

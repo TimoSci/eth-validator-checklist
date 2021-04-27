@@ -85,7 +85,7 @@ class GethNode < Node
 end
 
 
-class PrysmBeaconNode < Node
+class PrysmNode < Node
 
   def current_version
     executable = checklist.config[:executables][:prysmbeacon]
