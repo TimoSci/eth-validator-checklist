@@ -2,7 +2,7 @@ A Ruby script that runs an Ethereum Validator node through a **pre flight checkl
 
 ## Requirements
 
-1. Linux
+1. Linux - Ubuntu or Debian OS Family
 
 2. **Ruby** language. In case it is Ruby is not installed, try one of the 2 options:
 
@@ -41,4 +41,4 @@ to enter a password if you are not a superuser.
 
 * This object has various sub-objects that contain diagnostic methods. Examples: `checklist.clients.geth.version_check`, or `checklist.firewall.active?`
 
-*Warning: Untested software. Recommended for use on a test server. Make sure it doesn't cause any problems before running on production server*
+*Warning: Untested software. Recommended for use on a QA or test server. Make sure it doesn't cause any problems before running on production server*
