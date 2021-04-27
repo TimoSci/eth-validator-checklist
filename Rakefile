@@ -74,6 +74,11 @@ namespace :checklist do
       check checklist.system.packages_uptodate?, "System packages need to be updated"
     end
 
+    desc "Checking system reboot-required"
+    task :reboot do
+      check checklist.system.reboot_required?, "System needs to be rebooted"
+    end
+
   end
 
 

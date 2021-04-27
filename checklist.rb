@@ -186,6 +186,10 @@ class System < ChecklistSection
     apt_list_upgradable.size == 0
   end
 
+  def reboot_required?
+    File.exists? "/var/run/reboot-required"
+  end
+
 
 end
 
