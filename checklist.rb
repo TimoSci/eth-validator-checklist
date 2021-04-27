@@ -86,10 +86,10 @@ class Clients < ChecklistSection
     @installed = []
     return unless checklist.config
     installed = checklist.config[:clients]
-    node_class = Node
     installed.values.each do |client|
+      node_class = Node
       name = client.to_sym
-      # node_class = GethNode if name == :geth
+
       node_class = @@custom_nodes[name] if @@custom_nodes[name]
       node = node_class.new(name,checklist)
       node.service = Service.new(node)
