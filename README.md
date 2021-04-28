@@ -41,4 +41,9 @@ to enter a password if you are not a superuser.
 
 * This object has various sub-objects that contain diagnostic methods. Examples: `checklist.clients.geth.version_check`, or `checklist.firewall.active?`
 
+## Credits
+
+[Somer Esat's Staking Guides](https://github.com/SomerEsat/ethereum-staking-guide)
+
+
 ***Warning: Alpha software that has not been fully tested. Recommended for use on a QA or Test server only. Make sure you fully understand this software before running on production server where real ETH is at stake***.
