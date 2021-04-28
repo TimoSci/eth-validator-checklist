@@ -231,6 +231,21 @@ namespace :checklist do
     # task all: [:directories, :geth]
     #
 
+    if checklist.clients.installed.map(&:name).include?(:prysmbeacon)
+
+      namespace :prysmbeacon do
+
+        interface = clients.prysmbeacon.interface
+
+        desc "Check whether prysmbeacon is syncing"
+        task :syncing do
+          check interface.syncing?, "Prysmbeacon node is not syncing"
+        end
+
+      end
+
+    end
+
 
   end
 
