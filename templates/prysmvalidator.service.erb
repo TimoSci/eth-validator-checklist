@@ -1,0 +1,11 @@
+[Unit]
+Description=Prysm Eth2 Validator Client
+Wants=network-online.target
+After=network-online.target[Service]
+User=prysmvalidator
+Group=prysmvalidator
+Type=simple
+Restart=always
+RestartSec=5
+ExecStart=<%= executable => --datadir=<%= datadir => --wallet-dir=/var/lib/prysm/validator --wallet-password-file=/var/lib/prysm/validator/password.txt --graffiti="<yourgraffiti>" --accept-terms-of-use[Install]
+WantedBy=multi-user.target
