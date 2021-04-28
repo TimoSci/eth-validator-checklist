@@ -187,6 +187,13 @@ namespace :checklist do
           check client.current_version_is_latest?, "Client #{name} version does not appear to be latest version #{client.latest_version} "
         end
 
+        desc "Check whether #{name} endpoint is reachable"
+        if (interface = client.interface)
+          task :reachable do
+            check interface.req_status == 200 , "Request to geth http client not successful"
+          end
+        end
+
         task service_all: [:loaded, :active, :enabled, :dir]
 
       end
@@ -201,12 +208,6 @@ namespace :checklist do
       desc "Check geth version"
       task :version do
         check clients.geth.version_check , "Geth version appears to have vulnerabilities. Please upgrade."
-      end
-
-
-      desc "Check whether geth endpoint is reachable"
-      task :reachable do
-        check interface.req_status == 200 , "Request to geth http client not successful"
       end
 
       desc "Check if geth block is up to date"
