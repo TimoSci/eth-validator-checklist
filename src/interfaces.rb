@@ -1,5 +1,6 @@
 require 'jsonrpc-client'
 require 'faraday'
+require 'json'
 #
 # Class for wrapping actions associated with an http interface of a client
 #
@@ -63,6 +64,54 @@ class GethInterface < Interface
   def min_peercount?
     return nil unless req_status
     peercount > node.checklist.config[:geth][:minpeercount]
+  end
+
+end
+
+
+class PrysmBeaconInterface < Interface
+
+  @@default_endpoint =   "http://localhost:3500"
+  @@api_path = "/eth/v1alpha1"
+
+  def self.default_endpoint
+      @@default_endpoint
+  end
+
+  def initialize(endpoint=@@default_endpoint)
+    super(endpoint)
+  end
+
+
+  def req_status
+    Faraday.get(endpoint+api_path+"/node/syncing")&.status rescue false
+  end
+
+  def syncing
+    get "/node/syncing"
+  end
+
+  def peers
+    get "/node/peers"
+  end
+
+  def peers
+    get "/node/version"
+  end
+
+  def syncing?
+    syncing["syncing"]
+  end
+
+  private
+
+  def get(path)
+    response = Faraday.get endpoint+api_path+path
+    JSON.parse(response.body)
+  end
+
+  def api_path
+    @@api_path
   end
 
 end

@@ -81,6 +81,11 @@ class Clients < ChecklistSection
     prysmvalidator: PrysmNode
   }
 
+  @@interfaces = {
+    geth: GethInterface,
+    prysmbeacon: PrysmBeaconInterface
+  }
+
   def initialize(checklist=nil)
 
     super(checklist)
@@ -101,12 +106,18 @@ class Clients < ChecklistSection
       end
       @installed << node
 
-    case name
-    when :geth
-      endpoint = checklist.config[:geth][:http_endpoint]
-      endpoint = GethInterface.default_endpoint unless endpoint
-      node.set_interface GethInterface.new(endpoint)
-    end
+    # case name
+    # when :geth
+    #   endpoint = checklist.config[:geth][:http_endpoint]
+    #   endpoint = GethInterface.default_endpoint unless endpoint
+    #   node.set_interface GethInterface.new(endpoint)
+    # end
+      if (klass = @@interfaces[name])
+        config = Optional.new(checklist.config)
+        endpoint = config[name][:http_endpoint].value
+        endpoint = klass.default_endpoint unless endpoint
+        node.set_interface klass.new(endpoint)
+      end
 
     end
 
