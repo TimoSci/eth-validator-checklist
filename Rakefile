@@ -242,6 +242,11 @@ namespace :checklist do
           check interface.syncing?, "Prysmbeacon node is not syncing"
         end
 
+        desc "Check whether enough peer are connected to prysmbeacon"
+        task :peercount do
+          check interface.min_peercount?, "Prysmbeacon has low peer count. #{interface.peercount} peers connected"
+        end
+
       end
 
     end

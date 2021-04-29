@@ -32,3 +32,7 @@
 :geth:
   :minpeercount: 8
   :http_endpoint: http://127.0.0.1:8545
+
+:prysmbeacon:
+  :minpeercount: 20
+  :http_endpoint: http://127.0.0.1:3500  

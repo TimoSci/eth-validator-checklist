@@ -95,12 +95,21 @@ class PrysmBeaconInterface < Interface
     get "/node/peers"
   end
 
-  def peers
+  def version
     get "/node/version"
   end
 
   def syncing?
     syncing["syncing"]
+  end
+
+  def peercount
+    peers["peers"]&.size
+  end
+
+  def min_peercount?
+    return nil unless req_status
+    peercount > node.checklist.config[:prysmbeacon][:minpeercount]
   end
 
   private
