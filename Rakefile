@@ -51,9 +51,15 @@ def check(*args)
   @report.check(*args)
 end
 
+def all_tasks(namespace)
+  Rake.application.in_namespace( namespace ){ |namespace| namespace.tasks.each( &:invoke ) }
+  @report.print
+end
+
+
 
 desc "perform all checklist tasks"
-task "checklist:all" => [:create_config] do
+task :checklist => [:create_config] do
   Rake.application.in_namespace( :checklist ){ |namespace| namespace.tasks.each( &:invoke ) }
   @report.print
 end
@@ -63,6 +69,11 @@ namespace :checklist do
 
   checklist = Eth2Checklist.new
 
+
+  desc "all user tasks"
+  task :users  do
+    all_tasks "checklist:users"
+  end
 
   desc "Checking Users"
   namespace :users do
@@ -75,13 +86,16 @@ namespace :checklist do
       end
     end
 
-    task all: [:exist]
-
   end
 
+  desc "all system tasks"
+  task :system  do
+    all_tasks "checklist:system"
+  end
 
   desc "Checking System"
   namespace :system do
+
 
     desc "Checking if packages are up to date"
     task :packages do
@@ -95,6 +109,10 @@ namespace :checklist do
 
   end
 
+  desc "all timekeeping tasks"
+  task :timekeeping  do
+    all_tasks "checklist:timekeeping"
+  end
 
   desc "Checking Timekeeping"
   namespace :timekeeping do
@@ -111,10 +129,14 @@ namespace :checklist do
       check timedate.ntp_active?, "NTP Service is not active"
     end
 
-    task all: [:synchronized,:ntp]
-
   end
 
+
+
+  desc "all firewall tasks"
+  task :firewall  do
+    all_tasks "checklist:firewall"
+  end
 
   desc "Checking Firewall"
   namespace :firewall do
@@ -137,8 +159,12 @@ namespace :checklist do
       check closed_ports.empty?, "Ports #{closed_ports} are closed to incoming connections"
     end
 
-    task all: [:active,:incoming,:open_ports]
+  end
 
+
+  desc "all clients tasks"
+  task :clients  do
+    all_tasks "checklist:clients"
   end
 
   desc "Checking Clients"
@@ -159,6 +185,12 @@ namespace :checklist do
 
     clients.installed.each do |client|
       name = client.name.to_s
+
+
+      desc "all #{name} tasks"
+      task name.to_sym  do
+        all_tasks "checklist:clients:#{name}"
+      end
 
       namespace name.to_sym do
 
