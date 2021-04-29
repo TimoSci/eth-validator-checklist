@@ -30,7 +30,7 @@ Edit this file if needed. By default it follows the conventions in [Somer Esat's
 
 * `rake -T` will show all available tasks.
 
-* `rake checklist:all` will go through the entire checklist and report the failed checks. Note: Some of the checks require sudo priviledges so you may need
+* `rake checklist` will go through the entire checklist and report the failed checks. Note: Some of the checks require sudo priviledges so you may need
 to enter a password if you are not a superuser.
 
 ### Perform checks manually via Ruby console
