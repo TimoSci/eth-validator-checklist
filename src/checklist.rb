@@ -5,6 +5,7 @@ require_relative 'helpers'
 require_relative 'node'
 require_relative 'service'
 require_relative 'interfaces'
+require_relative 'abstract_classes'
 
 
 require 'yaml'
@@ -202,7 +203,7 @@ end
 
 
 
-class Eth2Checklist
+class Eth2Checklist < Eth2Object
 
   @@api_config = {
     clients: Clients,
@@ -219,8 +220,7 @@ class Eth2Checklist
   @@config_file= @@default_config_file unless File.exists?(@@config_file)
 
   def initialize(config=nil)
-    @config = config
-    config_from_file if File.exists? @@config_file
+    super(config)
     @@api_config.each do |methode,klass|
       k = klass.new(self)
       instance_variable_set("@"+methode.to_s,k)
@@ -230,11 +230,6 @@ class Eth2Checklist
 
   @@api_config.keys.each do |methode|
     attr_reader methode
-  end
-  attr_reader :config
-
-  def config_from_file(file=@@config_file)
-    @config = YAML::load(File.read(file))
   end
 
 end
