@@ -53,7 +53,7 @@ end
 
 def all_tasks(namespace)
   Rake.application.in_namespace( namespace ){ |namespace| namespace.tasks.each( &:invoke ) }
-  @report.print
+  # @report.print
 end
 
 
