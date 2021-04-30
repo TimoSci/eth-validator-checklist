@@ -5,9 +5,13 @@ module FileParsing
 
   module Systemctl
 
+      def config_file_path(service)
+        "/etc/systemd/system/#{service}.service"
+      end
+
       def config_file(service)
         raise 'not a valid service name' if (service=service.to_s).empty?
-        filename = "/etc/systemd/system/#{service}.service"
+        filename = config_file_path(service)
         return nil unless File.exist?(filename)
         f = File.read(filename)
         parse_config_file(f)
