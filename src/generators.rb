@@ -24,7 +24,6 @@ class ServiceGenerator < Eth2Object
 
   def get_template(name)
     path = template_path(name)
-    binding.pry
     raise "template file doesn't exist" unless File.exists? path
     ERB.new File.read(path)
   end
@@ -36,6 +35,13 @@ class ServiceGenerator < Eth2Object
   def set_templates
     self.templates = get_templates
   end
+
+  def parse_template(name)
+    datadir = config[:directories][name.to_sym]
+    template = get_template(name)
+    template.result(binding)
+  end
+
 
   private
 
@@ -52,3 +58,7 @@ class ServiceGenerator < Eth2Object
   end
 
 end
+
+g = ServiceGenerator.new
+
+binding.pry
