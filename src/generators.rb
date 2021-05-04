@@ -74,18 +74,13 @@ end
 
 class ServiceGenerator < Eth2Object
 
+    def each_template
+      config[:clients].values.each{|name| yield Template.new(name)}
+    end
 
-  attr_accessor :templates
-
-
-  def get_templates
-    config[:clients].values.map{|name| Template.new(name)}
-  end
-
-  def set_templates
-    self.templates = get_templates
-  end
-
+    def create_files
+      each_template(&:create_file)
+    end
 
 end
 
