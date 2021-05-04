@@ -1,11 +1,15 @@
 [Unit]
 Description=Prysm Eth2 Client Beacon Node
 Wants=network-online.target
-After=network-online.target[Service]
+After=network-online.target
+
+[Service]
 User=prysmbeacon
 Group=prysmbeacon
 Type=simple
 Restart=always
 RestartSec=5
-ExecStart=<%= executable => --datadir=<%= datadir => --http-web3provider=http://127.0.0.1:8545 --accept-terms-of-use[Install]
+ExecStart=<%= executable => --datadir=<%= datadir => --http-web3provider=http://127.0.0.1:8545 --accept-terms-of-use
+
+[Install]
 WantedBy=multi-user.target
