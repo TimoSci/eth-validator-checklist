@@ -9,24 +9,58 @@ require_relative 'file_parsing'
 # Classes used for generation of system files
 #
 
+class Template < Eth2Object
+
+  include FileParsing::Systemctl
+
+  @@templates_path = 'templates'
+
+  def initialize(name,config=nil)
+    super(config)
+    @name = name
+  end
+  attr_reader :name
+
+  def path
+    "#{root_path.to_s}/#{templates_path}/#{name}.service.erb"
+  end
+  
+  def get_erb
+    raise "template file doesn't exist" unless File.exists? path
+    ERB.new File.read(path)
+  end
+
+  def parse
+    datadir = config[:directories][name.to_sym]
+    get_erb.result(binding)
+  end
+
+  private
+
+  def root_path
+    @root_path_ || (@root_path = root_path_)
+  end
+
+  #TODO add method for finding root path
+  def root_path_
+    Pathname.new `pwd`.chomp
+  end
+
+  def templates_path
+    @@templates_path
+  end
+
+end
+
+
 
 class ServiceGenerator < Eth2Object
 
-  @@templates_path = 'templates'
 
   include FileParsing::Systemctl
 
   attr_accessor :templates
 
-  def template_path(name)
-    "#{root_path.to_s}/#{templates_path}/#{name}.service.erb"
-  end
-
-  def get_template(name)
-    path = template_path(name)
-    raise "template file doesn't exist" unless File.exists? path
-    ERB.new File.read(path)
-  end
 
   def get_templates
     config[:clients].values.map{|name| get_template(name)}
@@ -36,12 +70,10 @@ class ServiceGenerator < Eth2Object
     self.templates = get_templates
   end
 
-  def parse_template(name)
-    datadir = config[:directories][name.to_sym]
-    template = get_template(name)
-    template.result(binding)
-  end
 
+
+  def write_template(name)
+  end
 
   private
 
@@ -61,4 +93,5 @@ end
 
 g = ServiceGenerator.new
 
+t = Template.new "geth"
 binding.pry
