@@ -35,6 +35,24 @@ class Template < Eth2Object
     get_erb.result(binding)
   end
 
+  def file
+    "assets/#{name}.service"
+  end
+
+  def create_file
+    File.write file, parse
+  end
+
+  def copy_file
+    dir = config[:system][:services]
+    destination_path = dir+"/#{name}.service"
+    if File.exists? destination_path
+      pp "file #{destination_path} already exists"
+      return
+    end
+    %x| sudo cp #{file} #{destination_path} |
+  end
+
   private
 
   def root_path
@@ -57,37 +75,17 @@ end
 class ServiceGenerator < Eth2Object
 
 
-  include FileParsing::Systemctl
-
   attr_accessor :templates
 
 
   def get_templates
-    config[:clients].values.map{|name| get_template(name)}
+    config[:clients].values.map{|name| Template.new(name)}
   end
 
   def set_templates
     self.templates = get_templates
   end
 
-
-
-  def write_template(name)
-  end
-
-  private
-
-  def root_path
-    @root_path_ || (@root_path = root_path_)
-  end
-
-  def root_path_
-    Pathname.new `pwd`.chomp
-  end
-
-  def templates_path
-    @@templates_path
-  end
 
 end
 

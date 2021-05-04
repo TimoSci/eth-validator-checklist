@@ -1,0 +1,15 @@
+[Unit]
+Description=Go Ethereum Client
+After=network.target
+Wants=network.target
+
+[Service]
+User=goeth
+Group=goeth
+Type=simple
+Restart=always
+RestartSec=5
+ExecStart=geth --http --datadir /var/lib/goethereum --cache 2048 --maxpeers 30
+
+[Install]
+WantedBy=default.target

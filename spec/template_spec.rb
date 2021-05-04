@@ -22,6 +22,4 @@ RSpec.describe Template do
     expect(template.parse.empty?).to be false
   end
 
-
-
 end
