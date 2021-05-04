@@ -1,9 +1,10 @@
+require_relative "src/checklist.rb"
+require_relative "src/generators.rb"
+
 desc "create configuration file"
 task :create_config do
   system("cp config_default.yml config.yml") unless File.exists? "config.yml"
 end
-
-require_relative "src/checklist.rb"
 
 
 
@@ -291,5 +292,29 @@ namespace :checklist do
 
 
 end
-#
-#
+
+
+
+
+namespace :generate do
+
+  generator = ServiceGenerator.new
+
+  desc "generate all .services file and copy them to system directory"
+  task :services do
+    generator.create_and_copy_files
+  end
+
+  namespace :service do
+
+    generator.each_template do |template|
+      name = template.name
+      desc "generate #{name}.service file and copy it to system directory"
+      task name.to_sym do
+        template.create_and_copy_file
+      end
+    end
+
+  end
+
+end

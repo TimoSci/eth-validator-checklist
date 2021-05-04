@@ -53,6 +53,11 @@ class Template < Eth2Object
     %x| sudo cp #{file} #{destination_path} |
   end
 
+  def create_and_copy_file
+    create_file
+    copy_file
+  end
+
   private
 
   def root_path
@@ -82,9 +87,8 @@ class ServiceGenerator < Eth2Object
       each_template(&:create_file)
     end
 
+    def create_and_copy_files
+      each_template(&:create_and_copy_file)
+    end
+
 end
-
-g = ServiceGenerator.new
-
-t = Template.new "geth"
-binding.pry
