@@ -18,7 +18,7 @@ A Ruby script that runs an Ethereum Validator node through a **pre flight checkl
 
 2. In this repository type `bundle install` to install Ruby dependencies.
 
-3. Type `rake create_config` to initialize configuration file for main net or rake `rake create_config_testnet` for testnet.
+3. Type `rake create_config` to initialize configuration file for main net or `rake create_config_testnet` for testnet.
 
 4. The configuration file `config.yml` contains your local settings, such as names of data directories, user names, ports etc.
 Edit this file if needed. By default it follows the conventions in [Somer Esat's staking guide](https://someresat.medium.com/guide-to-staking-on-ethereum-2-0-ubuntu-prysm-56f681646f74).
