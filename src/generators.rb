@@ -32,6 +32,7 @@ class Template < Eth2Object
 
   def parse
     name = self.name.to_sym
+    executable = config[:executables][name]
     datadir = config[:directories][name]
     network = config[name]&.[] :network
     flag = "-- #{network}" if network
