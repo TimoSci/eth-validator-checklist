@@ -32,11 +32,10 @@
 :geth:
   :minpeercount: 8
   :http_endpoint: http://127.0.0.1:8545
-  :network:
 
 :prysmbeacon:
   :minpeercount: 20
-  :http_endpoint: http://127.0.0.1:3500  
+  :http_endpoint: http://127.0.0.1:3500 
 
 :system:
   :services: /etc/systemd/system

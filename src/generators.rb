@@ -35,7 +35,7 @@ class Template < Eth2Object
     executable = config[:executables][name]
     datadir = config[:directories][name]
     network = config[name]&.[] :network
-    flag = "-- #{network}" if network
+    flag = "--#{network}" if network
     get_erb.result(binding)
   end
 
