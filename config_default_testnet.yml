@@ -32,7 +32,7 @@
 :geth:
   :minpeercount: 8
   :http_endpoint: http://127.0.0.1:8545
-  :network:
+  :network: goerli
 
 :prysmbeacon:
   :minpeercount: 20

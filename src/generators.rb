@@ -31,7 +31,10 @@ class Template < Eth2Object
   end
 
   def parse
-    datadir = config[:directories][name.to_sym]
+    name = self.name.to_sym
+    datadir = config[:directories][name]
+    network = config[name]&.[] :network
+    flag = "-- #{network}" if network
     get_erb.result(binding)
   end
 
