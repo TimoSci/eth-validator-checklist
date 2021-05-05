@@ -6,6 +6,10 @@ task :create_config do
   system("cp config_default.yml config.yml") unless File.exists? "config.yml"
 end
 
+desc "create configuration file for testnet"
+task :create_config_testnet do
+  system("cp config_default_testnet.yml config.yml") unless File.exists? "config.yml"
+end
 
 
 
