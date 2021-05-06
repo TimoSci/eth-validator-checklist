@@ -10,7 +10,7 @@ A Ruby script that runs an Ethereum Validator node through a **pre flight checkl
 
   * Directly through the package manager: `sudo snap install ruby`
 
-3. An ETH1 node, and ETH2 Beacon and Validator nodes. Currently this checklist only works with **Geth** and **Prysm**. Support for other clients is planned.
+3. An ETH1 client, and ETH2 Beacon and Validator clients. Currently this checklist only works with **Geth** and **Prysm**. Support for other clients is planned.
 
 ## Installation
 
