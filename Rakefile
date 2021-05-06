@@ -276,7 +276,7 @@ namespace :checklist do
 
         desc "Check whether prysmbeacon is syncing"
         task :syncing do
-          check interface.syncing?, "Prysmbeacon node is not syncing"
+          check !interface.syncing?, "Prysmbeacon node has not finished syncing"
         end
 
         desc "Check whether enough peer are connected to prysmbeacon"
