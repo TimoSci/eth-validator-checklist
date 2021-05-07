@@ -1,4 +1,4 @@
 #!/bin/bash
-sudo add-apt-repository -y ppa:ethereum/ethereum
-sudo apt update
-sudo apt install geth
+sudo useradd --no-create-home --shell /bin/false goeth
+sudo mkdir -p /var/lib/goethereum
+sudo chown -R goeth:goeth /var/lib/goethereum
