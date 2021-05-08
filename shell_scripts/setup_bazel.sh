@@ -6,7 +6,7 @@ echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" |
 
 sudo apt update && sudo apt install bazel
 sudo apt update && sudo apt full-upgrade
-sudo apt update && sudo apt install bazel-3.2.0
+sudo apt update && sudo apt install bazel-3.7.0
 
 sudo apt install -y libtinfo5 # Terminal handling
 sudo apt-get install -y libssl-dev # OpenSSL 
