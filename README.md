@@ -4,7 +4,7 @@ A Ruby script that runs an Ethereum Validator node through a **pre flight checkl
 
 1. Linux - Ubuntu or Debian OS Family
 
-2. **Ruby** language. In case it is Ruby is not installed, try one of the 2 options:
+2. **Ruby** language. In case Ruby is not installed, try one of the 2 options:
 
   * Via **rvm**, in case you want more flexible control over the Ruby version. Follow the instructios at https://rvm.io/. Then type `rvm install 3.0.1`
 
