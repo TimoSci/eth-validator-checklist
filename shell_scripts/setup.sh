@@ -11,7 +11,7 @@ sudo ufw enable
 #
 ./install_geth.sh
 ./setup_geth.sh
-./start_geth.sh
+./deploy_geth.sh
 #
 ./setup_beacon.sh
 
