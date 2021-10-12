@@ -11,6 +11,7 @@ sudo ufw enable
 #
 ./install_geth.sh
 ./setup_geth.sh
+rake generate:service:geth
 ./deploy_geth.sh
 #
 ./setup_beacon.sh
