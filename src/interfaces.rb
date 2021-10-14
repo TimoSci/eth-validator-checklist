@@ -114,12 +114,14 @@ class PrysmBeaconInterface < Interface
     peercount > node.checklist.config[:prysmbeacon][:minpeercount]
   end
 
-  private
-
   def get(path)
     response = Faraday.get endpoint+api_path+path
     JSON.parse(response.body)
   end
+
+  private
+
+
 
   def api_path
     @@api_path
