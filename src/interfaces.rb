@@ -71,6 +71,8 @@ end
 
 class PrysmBeaconInterface < Interface
 
+  # See https://github.com/prysmaticlabs/prysm/blob/develop/proto/prysm/v1alpha1/node.proto for API schema
+
   @@default_endpoint =   "http://localhost:3500"
   @@api_path = "/eth/v1alpha1"
 
