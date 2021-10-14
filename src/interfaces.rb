@@ -105,6 +105,10 @@ class PrysmBeaconInterface < Interface
     syncing["syncing"]
   end
 
+  def chainhead
+    get "/beacon/chainhead"
+  end
+
   def peercount
     peers["peers"]&.size
   end
