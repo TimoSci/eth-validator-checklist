@@ -96,3 +96,13 @@ class ServiceGenerator < Eth2Object
     end
 
 end
+
+
+class FileGeneratorBeacon < Eth2Object
+  # Generates files and services for client
+  
+  def add_user(user)
+    `sudo useradd --no-create-home --shell /bin/false #{user}` 
+  end
+
+end
