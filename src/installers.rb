@@ -27,6 +27,10 @@ class PrysmInstaller < Installer
         config[:users][:prysmbeacon]
     end
 
+    def create_user
+       %| sudo useradd --no-create-home --shell /bin/false #{user} |
+    end
+
     def create_data_directory(datadir)
         %x|sudo mkdir -p #{datadir}|
         %x|sudo chown -R #{user}:#{user} #{datadir}|
@@ -68,6 +72,7 @@ class PrysmInstaller < Installer
     end
 
     def install_prysmbeacon
+        create_user
         create_data_directory(config[:directories][:prysmbeacon])
         create_executable(:prysmbeacon, "beacon-chain")
     end
