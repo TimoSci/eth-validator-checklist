@@ -322,3 +322,12 @@ namespace :generate do
   end
 
 end
+
+
+namespace :install do
+
+  namespace :geth do
+  end
+
+  
+end

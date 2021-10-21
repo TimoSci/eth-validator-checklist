@@ -29,6 +29,14 @@
   :prysmbeacon: prysmaticlabs/prysm
   :prysmvalidator: prysmaticlabs/prysm
 
+:sources:
+  :prysmbeacon: 
+    :url: https://github.com/prysmaticlabs/prysm/releases/download/v1.3.9/
+    :file: beacon-chain-v1.3.9-linux-amd64
+  :prysmvalidator:
+    :url:  https://github.com/prysmaticlabs/prysm/releases/download/v1.3.9/
+    :file: validator-v1.3.9-linux-amd64 
+
 :geth:
   :minpeercount: 8
   :http_endpoint: http://127.0.0.1:8545
