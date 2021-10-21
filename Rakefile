@@ -328,7 +328,7 @@ end
 namespace :install do
 
   namespace :prysm do
-    installer = Prysminstaller
+    installer = PrysmInstaller
   end
 
   
