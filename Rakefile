@@ -1,5 +1,6 @@
 require_relative "src/checklist.rb"
 require_relative "src/generators.rb"
+require_relative "src/installers.rb"
 
 desc "create configuration file"
 task :create_config do
@@ -326,7 +327,8 @@ end
 
 namespace :install do
 
-  namespace :geth do
+  namespace :prysm do
+    installer = Prysminstaller
   end
 
   

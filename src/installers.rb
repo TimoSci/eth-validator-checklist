@@ -19,7 +19,7 @@ class GethInstaller < Installer
 end
 
 
-class PrysmIntaller < Installer
+class PrysmInstaller < Installer
 
     # Generates files and services for client
 
@@ -27,11 +27,14 @@ class PrysmIntaller < Installer
         config[:users][:prysmbeacon]
     end
 
-    def create_data_directory
-        datadir = config[:directories][:prysmbeacon]
+    def create_data_directory(datadir)
         %x|sudo mkdir -p #{datadir}|
         %x|sudo chown -R #{user}:#{user} #{datadir}|
         %x|sudo chmod 700 #{datadir}|
+    end
+
+    def remove_data_directory(datadir)
+        %x|sudo trash #{datadir}|
     end
 
     # def install_prysm
@@ -51,21 +54,26 @@ class PrysmIntaller < Installer
     #     %x| sudo cp validator /usr/local/bin |
     # end
 
-    def install(source, executable_name)
-
+    def create_executable(source, executable_name)
         config_source = config[:sources][source]
         %x| curl -LO #{config_source[:url]}#{config_source[:file]} | 
         %x| mv ./#{config_source[:file]} #{executable_name} |
         %x| chmod +x #{executable_name} |
         %x| sudo cp #{executable_name} /usr/local/bin |
+    end
 
+
+    def remove_executable(source, executable_name)
+        %x| sudo trash /usr/local/bin/#{executable_name}  |
     end
 
     def install_prysmbeacon
-        install(:prysmbeacon, "beacon-chain")
+        create_data_directory(config[:directories][:prysmbeacon])
+        create_executable(:prysmbeacon, "beacon-chain")
     end
 
     def install_prysmvalidator
+        create_data_directory(config[:directories][:prysmvalidator])
         install(:prysmvalidator, "validator")
     end
 
