@@ -333,3 +333,24 @@ namespace :install do
 
   
 end
+
+
+namespace :update do
+
+  namespace :prysm do
+    installer = PrysmInstaller
+
+    desc "update beacon client"
+    task :beacon do
+      installer.update_prysmbeacon
+    end
+
+    desc "update validator client"
+    task :validator do
+      installer.update_prysmbeacon
+    end
+
+  end
+
+  
+end

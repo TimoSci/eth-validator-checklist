@@ -71,6 +71,18 @@ class PrysmInstaller < Installer
         %x| sudo trash /usr/local/bin/#{executable_name}  |
     end
 
+    def update_prysmbeacon
+       stop_prysm_services 
+       create_executable(:prysmbeacon, "beacon-chain")
+       start_prysm_services
+    end
+
+    def update_prysmvalidator
+        stop_prysm_services 
+        create_executable(:prysmvalidator, "validator")
+        start_prysm_services
+    end
+
     def install_prysmbeacon
         create_user
         create_data_directory(config[:directories][:prysmbeacon])
@@ -79,10 +91,17 @@ class PrysmInstaller < Installer
 
     def install_prysmvalidator
         create_data_directory(config[:directories][:prysmvalidator])
-        install(:prysmvalidator, "validator")
+        create_executable(:prysmvalidator, "validator")
     end
 
+    def stop_prysm_services
+        %x|sudo systemctl stop prysmvalidator|
+        %x|sudo systemctl stop prysmbeacon|
+    end
 
-    
+    def start_prysm_services
+        %x|sudo systemctl start prysmbeacon|
+        %x|sudo systemctl start prysmvalidator|
+    end    
   
 end
