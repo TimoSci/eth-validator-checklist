@@ -6,8 +6,6 @@
 sudo apt-get install gnupg2
 #ufw
 sudo apt-get install ufw
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
 ./ufw_rules.sh
 sudo ufw enable
 #
@@ -15,7 +13,6 @@ sudo ufw enable
 ./setup_geth.sh
 rake generate:service:geth
 ./deploy_geth.sh
-sudo systemctl enable geth
 #
 ./setup_beacon.sh
 
