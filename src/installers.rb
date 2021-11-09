@@ -80,6 +80,7 @@ class PrysmInstaller < Installer
     def update_executable(executable_name)
         filename = "beacon-chain-#{latest_version}-linux-amd64"
         %x| curl -LO https://github.com/prysmaticlabs/prysm/releases/download/#{latest_version}/#{filename} |
+        puts "Downloaded #{filename}"
         %x| mv ./#{filename} #{executable_name} |
         %x| chmod +x #{executable_name} |
         %x| sudo trash /usr/local/bin/#{executable_name} |

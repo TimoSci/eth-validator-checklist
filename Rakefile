@@ -347,7 +347,7 @@ namespace :update do
 
     desc "update validator client"
     task :validator do
-      installer.update_prysmbeacon
+      installer.update_prysmvalidator
     end
 
   end
