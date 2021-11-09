@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo apt install curl gnupg
+sudo apt install curl gnupg trash-cli

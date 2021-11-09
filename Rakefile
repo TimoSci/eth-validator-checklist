@@ -328,7 +328,7 @@ end
 namespace :install do
 
   namespace :prysm do
-    installer = PrysmInstaller.new
+    installer = PrysmInstaller.new(Eth2Checklist.new)
   end
 
   
