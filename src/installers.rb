@@ -4,6 +4,12 @@
 
 
 class Installer < Eth2Object
+
+    def initialize(checklist)
+     @checklist = checklist
+    end
+
+    attr_reader :checklist
     
     def add_user
       %x|sudo useradd --no-create-home --shell /bin/false #{user}| 
@@ -58,13 +64,27 @@ class PrysmInstaller < Installer
     #     %x| sudo cp validator /usr/local/bin |
     # end
 
+    def latest_version
+       checklist.clients.prysmbeacon.latest_version
+    end
+
     def create_executable(source, executable_name)
         config_source = config[:sources][source]
         %x| curl -LO #{config_source[:url]}#{config_source[:file]} | 
         %x| mv ./#{config_source[:file]} #{executable_name} |
         %x| chmod +x #{executable_name} |
+        %x| sudo trash /usr/local/bin/#{executable_name} |
         %x| sudo cp #{executable_name} /usr/local/bin |
     end
+
+    def update_prysmbeacon(executable_name)
+        filename = "beacon-chain-#{latest_version}-linux-amd64"
+        %x| curl -LO https://github.com/prysmaticlabs/prysm/releases/download/#{latest_version}/#{filename} |
+        %x| mv ./#{filename} #{executable_name} |
+        %x| chmod +x #{executable_name} |
+        %x| sudo trash /usr/local/bin/#{executable_name} |
+        %x| sudo cp #{executable_name} /usr/local/bin |
+    end    
 
 
     def remove_executable(source, executable_name)
@@ -72,15 +92,15 @@ class PrysmInstaller < Installer
     end
 
     def update_prysmbeacon
-       stop_prysm_services 
+    #    stop_prysm_services 
        create_executable(:prysmbeacon, "beacon-chain")
-       start_prysm_services
+    #    start_prysm_services
     end
 
     def update_prysmvalidator
-        stop_prysm_services 
+        # stop_prysm_services 
         create_executable(:prysmvalidator, "validator")
-        start_prysm_services
+        # start_prysm_services
     end
 
     def install_prysmbeacon

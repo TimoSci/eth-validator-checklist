@@ -328,7 +328,7 @@ end
 namespace :install do
 
   namespace :prysm do
-    installer = PrysmInstaller
+    installer = PrysmInstaller.new
   end
 
   
@@ -338,7 +338,7 @@ end
 namespace :update do
 
   namespace :prysm do
-    installer = PrysmInstaller
+    installer = PrysmInstaller.new(Eth2Checklist.new)
 
     desc "update beacon client"
     task :beacon do

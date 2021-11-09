@@ -8,7 +8,7 @@ require_relative 'src/installers'
 require_relative 'src/generators'
 #
 checklist = Eth2Checklist.new
-installer = PrysmInstaller.new
+installer = PrysmInstaller.new(checklist)
 generator = ServiceGenerator.new
 #
 binding.pry
