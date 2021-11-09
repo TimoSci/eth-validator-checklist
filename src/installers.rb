@@ -91,17 +91,6 @@ class PrysmInstaller < Installer
         %x| sudo trash /usr/local/bin/#{executable_name}  |
     end
 
-    def update_prysmbeacon
-    #    stop_prysm_services 
-       create_executable(:prysmbeacon, "beacon-chain")
-    #    start_prysm_services
-    end
-
-    def update_prysmvalidator
-        # stop_prysm_services 
-        create_executable(:prysmvalidator, "validator")
-        # start_prysm_services
-    end
 
     def install_prysmbeacon
         create_user
