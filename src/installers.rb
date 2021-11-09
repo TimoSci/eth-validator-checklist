@@ -74,17 +74,21 @@ class PrysmInstaller < Installer
         %x| mv ./#{config_source[:file]} #{executable_name} |
         %x| chmod +x #{executable_name} |
         %x| sudo trash /usr/local/bin/#{executable_name} |
-        %x| sudo cp #{executable_name} /usr/local/bin |
+        %x| sudo mv #{executable_name} /usr/local/bin |
     end
 
-    def update_prysmbeacon(executable_name)
+    def update_executable(executable_name)
         filename = "beacon-chain-#{latest_version}-linux-amd64"
         %x| curl -LO https://github.com/prysmaticlabs/prysm/releases/download/#{latest_version}/#{filename} |
         %x| mv ./#{filename} #{executable_name} |
         %x| chmod +x #{executable_name} |
         %x| sudo trash /usr/local/bin/#{executable_name} |
-        %x| sudo cp #{executable_name} /usr/local/bin |
+        %x| sudo mv #{executable_name} /usr/local/bin |
     end    
+
+    def update_prysmbeacon
+        update_executable("beacon-chain")
+    end
 
 
     def remove_executable(source, executable_name)
