@@ -7,9 +7,10 @@ class Installer < Eth2Object
 
     def initialize(checklist)
      @checklist = checklist
+     @config = checklist.config
     end
 
-    attr_reader :checklist
+    attr_reader :checklist, :config
     
     def add_user
       %x|sudo useradd --no-create-home --shell /bin/false #{user}| 
