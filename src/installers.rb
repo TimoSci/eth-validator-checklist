@@ -91,8 +91,7 @@ class PrysmInstaller < Installer
         update_executable("beacon-chain")
     end
 
-
-    def remove_executable(source, executable_name)
+    def remove_executable(executable_name)
         %x| sudo trash /usr/local/bin/#{executable_name}  |
     end
 
