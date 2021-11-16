@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo apt install curl gnupg trash-cli
+sudo apt install curl gnupg2 trash-cli htop git net-tools vim
