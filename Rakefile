@@ -329,6 +329,12 @@ namespace :install do
 
   namespace :prysm do
     installer = PrysmInstaller.new(Eth2Checklist.new)
+
+    desc "install prysmbeacon client"
+    task :beacon do
+      installer.install_prysmbeacon
+    end
+
   end
 
   
