@@ -39,7 +39,7 @@ class PrysmInstaller < Installer
     end
 
     def remove_user
-        %| sudo deluser #{user}|
+        %| sudo deluser #{user} |
     end
 
     def create_data_directory(datadir)
@@ -89,6 +89,12 @@ class PrysmInstaller < Installer
         create_user
         create_data_directory(config[:directories][:prysmbeacon])
         update_executable("beacon-chain")
+    end
+
+    def uninstall_prysmbeacon
+        remove_user
+        remove_data_directory(config[:directories][:prysmbeacon])
+        remove_executable("beacon-chain")
     end
 
     def install_prysmvalidator
