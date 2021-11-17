@@ -88,7 +88,7 @@ class PrysmInstaller < Installer
     def install_prysmbeacon
         create_user
         create_data_directory(config[:directories][:prysmbeacon])
-        update_executable(:prysmbeacon, "beacon-chain")
+        update_executable("beacon-chain")
     end
 
     def install_prysmvalidator
