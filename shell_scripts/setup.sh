@@ -17,9 +17,7 @@ sudo ufw enable
 ./setup_geth.sh
 rake generate:service:geth
 ./deploy_geth.sh
-sudo systemctl enable geth
+# sudo systemctl enable geth
 #
 # Install and deploy beacon
-rake install:prysm:beacon
-rake generate:service:prysmbeacon
-./deploy_beacon.sh
+./install_and_deploy_beacon.sh
