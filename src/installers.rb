@@ -35,11 +35,11 @@ class PrysmInstaller < Installer
     end
 
     def create_user
-       %| sudo useradd --no-create-home --shell /bin/false #{user} |
+        %x| sudo useradd --no-create-home --shell /bin/false #{user} |
     end
 
     def remove_user
-        %| sudo deluser #{user} |
+        %x| sudo deluser #{user} |
     end
 
     def create_data_directory(datadir)
