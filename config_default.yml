@@ -17,7 +17,9 @@
 :executables:
   :geth: geth
   :prysmbeacon: /usr/local/bin/beacon-chain
+    :name: beacon-chain 
   :prysmvalidator: /usr/local/bin/validator
+    :name: validator
 
 :users:
   :geth: goeth
@@ -32,10 +34,16 @@
 :sources:
   :prysmbeacon: 
     :url: https://github.com/prysmaticlabs/prysm/releases/download/v1.3.9/
+      :parent: https://github.com/prysmaticlabs/prysm/releases/download/
     :file: beacon-chain-v1.3.9-linux-amd64
+      :prefix: beacon-chain-
+      :suffix: -linux-amd64
   :prysmvalidator:
     :url:  https://github.com/prysmaticlabs/prysm/releases/download/v1.3.9/
+      :parent: https://github.com/prysmaticlabs/prysm/releases/download/
     :file: validator-v1.3.9-linux-amd64 
+      :prefix: validator-
+      :suffix: -linux-amd64
 
 :geth:
   :minpeercount: 8
@@ -47,3 +55,4 @@
 
 :system:
   :services: /etc/systemd/system
+  :binaries: /usr/local/bin
