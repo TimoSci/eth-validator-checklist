@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# rules for ssh
+sudo ufw allow 22
+
 # rules for geth
 sudo ufw allow 30303
 

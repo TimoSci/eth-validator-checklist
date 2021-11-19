@@ -1,23 +1,15 @@
 #!/bin/bash
 ./update_server.sh
-#
-#install gunpg2 which may be required for Ruby
-#
-sudo apt-get install gnupg2
+./setup_server
 #
 # Configure ufw
-sudo apt-get install ufw
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
 ./ufw_rules.sh
 sudo ufw enable
 #
 # Install and deploy geth
-./install_geth.sh
-./setup_geth.sh
-rake generate:service:geth
-./deploy_geth.sh
-# sudo systemctl enable geth
+./install_and_deploy_geth.sh
 #
 # Install and deploy beacon
 ./install_and_deploy_beacon.sh
