@@ -34,6 +34,10 @@ class PrysmInstaller < Installer
         config[:users][:prysmbeacon]
     end
 
+    def executable_name
+        config[:executables][:prsymbeacon][:name]
+    end
+
     def create_user
         %x| sudo useradd --no-create-home --shell /bin/false #{user} |
     end
