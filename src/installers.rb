@@ -35,7 +35,7 @@ class PrysmInstaller < Installer
     end
 
     def executable_name
-        config[:executables][:prsymbeacon][:name]
+        config[:executables][:prsymbeacon]
     end
 
     def create_user
@@ -61,7 +61,7 @@ class PrysmInstaller < Installer
        checklist.clients.prysmbeacon.latest_version
     end
 
-    def create_executable(source, executable_name)
+    def copy_executable_static(source, executable_name)
         config_source = config[:sources][source]
         %x| curl -LO #{config_source[:url]}#{config_source[:file]} | 
         %x| mv ./#{config_source[:file]} #{executable_name} |
@@ -70,18 +70,21 @@ class PrysmInstaller < Installer
         %x| sudo mv #{executable_name} /usr/local/bin |
     end
 
-    def update_executable(executable_name)
-        filename = "beacon-chain-#{latest_version}-linux-amd64"
-        %x| curl -LO https://github.com/prysmaticlabs/prysm/releases/download/#{latest_version}/#{filename} |
+    def copy_executable(source)
+        data = config[:sources][source]
+        filename  = data[:prefix]+latest_version+data[:suffix]
+        executable = config[:executables][source]
+        install_path = config[:system][:binaries]
+        %x| curl -LO #{data[:parent_url]}/#{latest_version}/#{filename} | 
         puts "Downloaded #{filename}"
-        %x| mv ./#{filename} #{executable_name} |
-        %x| chmod +x #{executable_name} |
-        %x| sudo trash /usr/local/bin/#{executable_name} |
-        %x| sudo mv #{executable_name} /usr/local/bin |
-    end    
+        %x| mv ./#{filename} #{executable} |
+        %x| chmod +x #{executable} |
+        %x| sudo mv #{executable} #{install_path} |
+        puts "Created #{install_path}/#{executable} "
+    end  
 
     def update_prysmbeacon
-        update_executable("beacon-chain")
+        copy_executable(:prysmbeacon)
     end
 
     def remove_executable(executable_name)
@@ -92,7 +95,7 @@ class PrysmInstaller < Installer
     def install_prysmbeacon
         create_user
         create_data_directory(config[:directories][:prysmbeacon])
-        update_executable("beacon-chain")
+        copy_executable(:prysmbeacon)
     end
 
     def uninstall_prysmbeacon
