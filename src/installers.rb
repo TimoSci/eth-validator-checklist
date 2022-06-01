@@ -87,8 +87,8 @@ class PrysmInstaller < Installer
         copy_executable(:prysmbeacon)
     end
 
-    def remove_executable(executable_name)
-        %x| sudo trash /usr/local/bin/#{executable_name}  |
+    def remove_executable(source)
+        %x| sudo trash #{config[:system][:binaries]}/#{config[:executables][source]} |
     end
 
 
@@ -101,7 +101,7 @@ class PrysmInstaller < Installer
     def uninstall_prysmbeacon
         remove_user
         remove_data_directory(config[:directories][:prysmbeacon])
-        remove_executable("beacon-chain")
+        remove_executable(:prysmbeacon)
     end
 
     def install_prysmvalidator
