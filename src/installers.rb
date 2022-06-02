@@ -30,12 +30,37 @@ class PrysmInstaller < Installer
 
     # Generates files and services for client
 
+
+    def initialize(args)
+        super(args)
+        @type = :prysmbeacon # default type is beacon installer
+    end
+
+    def type
+        @type
+    end
+
+    def type= (type)
+       raise "type must be :prysmvalidator or :prysmbeacon" unless [:prysmbeacon,:prysmvalidator].include? type
+       @type = type
+    end 
+
+    #---
+
     def user
-        config[:users][:prysmbeacon]
+        config[:users][type]
+    end
+
+    def user_id
+        checklist.users.id(user)
     end
 
     def executable_name
-        config[:executables][:prsymbeacon]
+        config[:executables][type]
+    end
+
+    def datadir
+        config[:directories][type]
     end
 
     def create_user
@@ -46,16 +71,17 @@ class PrysmInstaller < Installer
         %x| sudo deluser #{user} |
     end
 
-    def create_data_directory(datadir)
+
+    def create_data_directory
+        raise "user #{user} must exist" unless user_id
         %x|sudo mkdir -p #{datadir}|
         %x|sudo chown -R #{user}:#{user} #{datadir}|
         %x|sudo chmod 700 #{datadir}|
     end
 
-    def remove_data_directory(datadir)
+    def remove_data_directory
         %x|sudo trash #{datadir}|
     end
-
 
     def latest_version
        checklist.clients.prysmbeacon.latest_version
@@ -70,10 +96,10 @@ class PrysmInstaller < Installer
         %x| sudo mv #{executable_name} /usr/local/bin |
     end
 
-    def copy_executable(source)
-        data = config[:sources][source]
-        filename  = data[:prefix]+latest_version+data[:suffix]
-        executable = config[:executables][source]
+    def copy_executable
+        data = config[:sources][type]
+        filename  = data[:prefix] + latest_version + data[:suffix]
+        executable = config[:executables][type]
         install_path = config[:system][:binaries]
         %x| curl -LO #{data[:parent_url]}/#{latest_version}/#{filename} | 
         puts "Downloaded #{filename}"
@@ -83,31 +109,40 @@ class PrysmInstaller < Installer
         puts "Created #{install_path}/#{executable} "
     end  
 
-    def update_prysmbeacon
-        copy_executable(:prysmbeacon)
+    def remove_executable
+        %x| sudo trash #{config[:system][:binaries]}/#{config[:executables][type]} |
     end
 
-    def remove_executable(source)
-        %x| sudo trash #{config[:system][:binaries]}/#{config[:executables][source]} |
+    def install
+        create_user
+        create_data_directory
+        copy_executable
     end
 
+    def uninstall
+        remove_user
+        remove_data_directory
+        remove_executable
+    end
+
+    #
 
     def install_prysmbeacon
-        create_user
-        create_data_directory(config[:directories][:prysmbeacon])
-        copy_executable(:prysmbeacon)
+        type = :prysmbeacon
+        install
     end
+
 
     def uninstall_prysmbeacon
-        remove_user
-        remove_data_directory(config[:directories][:prysmbeacon])
-        remove_executable(:prysmbeacon)
+        type = :prysmbeacon
+        uninstall
     end
 
-    def install_prysmvalidator
-        create_data_directory(config[:directories][:prysmvalidator])
-        create_executable(:prysmvalidator, "validator")
+    def update_prysmbeacon
+        type = :prysmbeacon
+        copy_executable
     end
+
 
     def stop_prysm_services
         %x|sudo systemctl stop prysmvalidator|
@@ -120,3 +155,4 @@ class PrysmInstaller < Installer
     end    
   
 end
+
