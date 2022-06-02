@@ -125,6 +125,11 @@ class PrysmInstaller < Installer
         copy_executable
     end
 
+    def update_executable_static
+        %x| sudo trash #{install_path}/#{executable_name} |
+        copy_executable_static
+    end
+
     def install
         create_user
         create_data_directory
@@ -170,6 +175,13 @@ class EasyPrysmInstaller < PrysmInstaller
         self.type = type
         raise "user #{user} must exist" unless user_id
         update_executable
+    end
+
+
+    def update_static(type)
+        self.type = type
+        raise "user #{user} must exist" unless user_id
+        update_executable_static
     end
 
 

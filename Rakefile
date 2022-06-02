@@ -377,9 +377,19 @@ namespace :update do
       installer.update :prysmbeacon
     end
 
+    desc "update beacon client using static version defined in config.yml"
+    task :beacon_static do
+      installer.update_static :prysmbeacon
+    end
+
     desc "update validator client"
     task :validator do
       installer.update :prysmvalidator
+    end
+
+    desc "update validator client using static version defined in config.yml"
+    task :validator_static do
+      installer.update_static :prysmvalidator
     end
 
   end
