@@ -67,6 +67,10 @@ class PrysmInstaller < Installer
         config[:system][:binaries]
     end
 
+    def data
+        config[:sources][type]
+    end
+
     def create_user
         %x| sudo useradd --no-create-home --shell /bin/false #{user} |
     end
@@ -91,26 +95,25 @@ class PrysmInstaller < Installer
        checklist.clients.prysmbeacon.latest_version
     end
 
-    def copy_executable_static
-        config_source = config[:sources][type]
-
-        %x| curl -LO #{config_source[:url]}#{config_source[:file]} | 
-        %x| mv ./#{config_source[:file]} #{executable_name} |
-        %x| chmod +x #{executable_name} |
-        %x| sudo trash #{install_path}/#{executable_name} |
-        %x| sudo mv #{executable_name} #{install_path} |
-    end
-
-    def copy_executable
-        data = config[:sources][type]
-        filename  = data[:prefix] + latest_version + data[:suffix]
-  
-        %x| curl -LO #{data[:parent_url]}/#{latest_version}/#{filename} | 
+    def copy_executable_(filename,url)
+        %x| curl -LO #{url} | 
         puts "Downloaded #{filename}"
         %x| mv ./#{filename} #{executable_name} |
         %x| chmod +x #{executable_name} |
         %x| sudo mv #{executable_name} #{install_path} |
-        puts "Created #{install_path}/#{executable_name} "
+        puts "Created #{install_path}/#{executable_name}"
+    end
+
+    def copy_executable_static
+        filename  = data[:file]
+        url = "#{data[:url]}#{data[:file]}"
+        copy_executable_(filename,url)
+    end
+
+    def copy_executable
+        filename  = data[:prefix] + latest_version + data[:suffix]
+        url = "#{data[:parent_url]}/#{latest_version}/#{filename}"
+        copy_executable_(filename,url)
     end  
 
     def remove_executable
