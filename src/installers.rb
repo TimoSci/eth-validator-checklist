@@ -15,6 +15,7 @@ class Installer < Eth2Object
     def add_user
       %x|sudo useradd --no-create-home --shell /bin/false #{user}| 
     end
+    
 end
 
 class GethInstaller < Installer
@@ -28,8 +29,7 @@ end
 
 class PrysmInstaller < Installer
 
-    # Generates files and services for client
-
+    # Generates files and services for Prysm clients
 
     def initialize(args)
         super(args)
@@ -117,16 +117,16 @@ class PrysmInstaller < Installer
     end  
 
     def remove_executable
-        %x| sudo trash #{config[:system][:binaries]}/#{config[:executables][type]} |
+        %x| sudo trash #{install_path}/#{executable_name} |
     end
 
     def update_executable
-        %x| sudo trash #{install_path}/#{executable_name} |
+        remove_executable
         copy_executable
     end
 
     def update_executable_static
-        %x| sudo trash #{install_path}/#{executable_name} |
+        remove_executable
         copy_executable_static
     end
 
