@@ -11,41 +11,10 @@ class Installer < Eth2Object
     end
 
     attr_reader :checklist, :config
-    
-    def add_user
-      %x|sudo useradd --no-create-home --shell /bin/false #{user}| 
-    end
-    
-end
-
-class GethInstaller < Installer
-
-    def user
-        config[:users][:geth]
-    end
-
-end
-
-
-class PrysmInstaller < Installer
-
-    # Generates files and services for Prysm clients
-
-    def initialize(args)
-        super(args)
-        @type = :prysmbeacon # default type is beacon installer
-    end
 
     def type
         @type
     end
-
-    def type= (type)
-       raise "type must be :prysmvalidator or :prysmbeacon" unless [:prysmbeacon,:prysmvalidator].include? type
-       @type = type
-    end 
-
-    #---
 
     def user
         config[:users][type]
@@ -73,27 +42,90 @@ class PrysmInstaller < Installer
 
     def create_user
         %x| sudo useradd --no-create-home --shell /bin/false #{user} |
+        puts "Created user #{user}"
     end
 
     def remove_user
         %x| sudo deluser #{user} |
+        puts "Removed user #{user}"
     end
-
 
     def create_data_directory
         raise "user #{user} must exist" unless user_id
         %x|sudo mkdir -p #{datadir}|
         %x|sudo chown -R #{user}:#{user} #{datadir}|
         %x|sudo chmod 700 #{datadir}|
+        puts "Created data directory #{datadir}"
     end
 
     def remove_data_directory
         %x|sudo trash #{datadir}|
+        puts "Removed data directory #{datadir}"
     end
 
     def latest_version
        checklist.clients.prysmbeacon.latest_version
     end
+
+end
+
+
+
+class GethInstaller < Installer
+
+    def initialize(args)
+        super(args)
+        @type = :geth
+    end
+
+    def install_program
+        %x| sudo add-apt-repository -y ppa:ethereum/ethereum |
+        %x| sudo apt update |
+        %x| sudo apt install geth |
+    end
+
+    def uninstall_program
+        %x| sudo apt remove geth |
+    end
+
+    def setup
+        create_user
+        create_data_directory
+    end
+
+    def reverse_setup 
+        remove_user
+        remove_data_directory
+    end
+
+    def install
+        setup
+        install_program
+    end
+
+    def uninstall
+        reverse_setup
+        uninstall_program
+    end
+
+end
+
+
+class PrysmInstaller < Installer
+
+    # Generates files and services for Prysm clients
+
+    def initialize(args)
+        super(args)
+        @type = :prysmbeacon # default type is beacon installer
+    end
+
+    def type= (type)
+       raise "type must be :prysmvalidator or :prysmbeacon" unless [:prysmbeacon,:prysmvalidator].include? type
+       @type = type
+    end 
+
+    #---
 
     def copy_executable_(filename,url)
         %x| curl -LO #{url} | 
@@ -159,7 +191,6 @@ end
 
 
 class EasyPrysmInstaller < PrysmInstaller
-
 
     def install_type(type)
         self.type = type

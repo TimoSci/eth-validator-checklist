@@ -342,6 +342,16 @@ namespace :install do
 
   end
 
+  namespace :geth do
+    installer = GethInstaller.new(Eth2Checklist.new)
+
+    desc "install and setup geth"
+    task :geth do
+      installer.install
+    end
+
+  end
+
   
 end
 
@@ -359,6 +369,16 @@ namespace :uninstall do
     desc "uninstall prysmvalidator client"
     task :validator do
       installer.uninstall_type :prysmvalidator
+    end
+
+  end
+
+  namespace :geth do
+    installer = GethInstaller.new(Eth2Checklist.new)
+
+    desc "uninstall geth"
+    task :geth do
+      installer.uninstall
     end
 
   end
