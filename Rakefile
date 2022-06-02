@@ -328,11 +328,16 @@ end
 namespace :install do
 
   namespace :prysm do
-    installer = PrysmInstaller.new(Eth2Checklist.new)
+    installer = EasyPrysmInstaller.new(Eth2Checklist.new)
 
     desc "install prysmbeacon client"
     task :beacon do
-      installer.install_prysmbeacon
+      installer.install_type :prysmbeacon
+    end
+
+    desc "install prysmvalidator client"
+    task :validator do
+      installer.install_type :prysmvalidator
     end
 
   end
@@ -344,16 +349,16 @@ end
 namespace :update do
 
   namespace :prysm do
-    installer = PrysmInstaller.new(Eth2Checklist.new)
+    installer = EasyPrysmInstaller.new(Eth2Checklist.new)
 
     desc "update beacon client"
     task :beacon do
-      installer.update_prysmbeacon
+      installer.update :prysmbeacon
     end
 
     desc "update validator client"
     task :validator do
-      installer.update_prysmvalidator
+      installer.update :prysmvalidator
     end
 
   end

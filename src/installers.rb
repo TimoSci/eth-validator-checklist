@@ -125,25 +125,6 @@ class PrysmInstaller < Installer
         remove_executable
     end
 
-    #
-
-    def install_prysmbeacon
-        type = :prysmbeacon
-        install
-    end
-
-
-    def uninstall_prysmbeacon
-        type = :prysmbeacon
-        uninstall
-    end
-
-    def update_prysmbeacon
-        type = :prysmbeacon
-        copy_executable
-    end
-
-
     def stop_prysm_services
         %x|sudo systemctl stop prysmvalidator|
         %x|sudo systemctl stop prysmbeacon|
@@ -156,3 +137,43 @@ class PrysmInstaller < Installer
   
 end
 
+
+
+
+
+class EasyPrysmInstaller < PrysmInstaller
+
+
+    def install_type(type)
+        self.type = type
+        install
+    end
+
+    def uninstall_type(type)
+        self.type = type
+        uninstall
+    end
+
+    def update(type)
+        self.type = type
+        copy_executable
+    end
+
+
+    def install_prysmbeacon
+       install_type(:prysmbeacon)
+    end
+
+    def install_prysmvalidator
+        install_type(:prysmvalidator)
+    end
+
+    def uninstall_prysmbeacon
+        uninstall_type(:prysmbeacon)
+    end
+
+    def uninstall_prysmvalidator
+        uninstall_type(:prysmvalidator)
+    end
+
+end
