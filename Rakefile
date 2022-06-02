@@ -346,6 +346,27 @@ namespace :install do
 end
 
 
+namespace :uninstall do
+
+  namespace :prysm do
+    installer = EasyPrysmInstaller.new(Eth2Checklist.new)
+
+    desc "uninstall prysmbeacon client"
+    task :beacon do
+      installer.uninstall_type :prysmbeacon
+    end
+
+    desc "uninstall prysmvalidator client"
+    task :validator do
+      installer.uninstall_type :prysmvalidator
+    end
+
+  end
+
+  
+end
+
+
 namespace :update do
 
   namespace :prysm do

@@ -113,6 +113,11 @@ class PrysmInstaller < Installer
         %x| sudo trash #{config[:system][:binaries]}/#{config[:executables][type]} |
     end
 
+    def update_executable
+        %x| sudo trash /usr/local/bin/#{executable_name} |
+        copy_executable
+    end
+
     def install
         create_user
         create_data_directory
@@ -156,7 +161,8 @@ class EasyPrysmInstaller < PrysmInstaller
 
     def update(type)
         self.type = type
-        copy_executable
+        raise "user #{user} must exist" unless user_id
+        update_executable
     end
 
 
