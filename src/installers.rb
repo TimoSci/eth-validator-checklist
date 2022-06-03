@@ -17,7 +17,7 @@ class Installer < Eth2Object
     end
 
     def user
-        config[:users][type] || raise "user must be defined in config.yml"
+        config[:users][type] || (raise "user must be defined in config.yml")
     end
 
     def user_id
@@ -25,15 +25,15 @@ class Installer < Eth2Object
     end
 
     def executable_name
-        config[:executables][type] || raise "executalbe must be defined in config.yml"
+        config[:executables][type] || (raise "executalbe must be defined in config.yml")
     end
 
     def datadir
-        config[:directories][type] || raise "data directory must be defined in config.yml"
+        config[:directories][type] || (raise "data directory must be defined in config.yml")
     end
 
     def install_path
-        config[:system][:binaries] || raise "directory for binaries must be defined in config.yml"
+        config[:system][:binaries] || (raise "directory for binaries must be defined in config.yml")
     end
 
     def data
