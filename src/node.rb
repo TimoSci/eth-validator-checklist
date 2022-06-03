@@ -32,6 +32,10 @@ class Node
     checklist.config[:directories][name]
   end
 
+  def executable_path 
+    checklist.config[:system][:binaries] + "/" + checklist.config[:executables][name]
+  end
+
   def installation_directory
     dir = config_dir
     return nil unless dir
@@ -88,7 +92,8 @@ end
 class PrysmNode < Node
 
   def current_version
-    executable = checklist.config[:executables][:prysmbeacon]
+    @name = :prysmbeacon
+    executable = executable_path
     return nil unless executable
     return nil unless File.exists?(executable)
     response = %x|#{executable} -version|
