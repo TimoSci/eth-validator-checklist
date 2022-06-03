@@ -228,7 +228,7 @@ namespace :checklist do
         desc "Check whether #{name} endpoint is reachable"
         if (interface = client.interface)
           task :reachable do
-            check interface.req_status == 200 , "Request to geth http client not successful"
+            check interface.req_status == 200 , "Request to #{name} http client not successful"
           end
         end
 

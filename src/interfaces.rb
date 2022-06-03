@@ -123,6 +123,10 @@ class PrysmBeaconInterface < Interface
     JSON.parse(response.body)
   end
 
+  def balances(epoch)
+    get "/validators/balances?epoch=#{epoch}" 
+  end
+
   private
 
 
