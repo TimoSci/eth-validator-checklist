@@ -168,7 +168,7 @@ class ValidatorMetricsInterface < Interface
   end
 
   def validator_balances
-    validator_balances_raw.map(&:parse)
+    validator_balances_raw.map{|balance| parse(balance)}
   end
 
 end
