@@ -167,4 +167,8 @@ class ValidatorMetricsInterface < Interface
     {pubkey: pubkey, balance: amount}
   end
 
+  def validator_balances
+    validator_balances_raw.map(&:parse)
+  end
+
 end
