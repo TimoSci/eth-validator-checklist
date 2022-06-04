@@ -164,7 +164,7 @@ class ValidatorMetricsInterface < Interface
     descriptor, amount = balance.split
     amount = amount.to_f
     pubkey = descriptor.scan(/{pubkey=(.*)}/)&.first&.first.scan(/\w+/)&.first
-    {pubkey: pubkey, balance: balance}
+    {pubkey: pubkey, balance: amount}
   end
 
 end
