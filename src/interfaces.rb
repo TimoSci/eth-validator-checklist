@@ -136,3 +136,28 @@ class PrysmBeaconInterface < Interface
   end
 
 end
+
+
+
+class ValidatorMetricsInterface < Interface
+
+  @@default_endpoint =   "http://localhost:8081/metrics"
+
+  def self.default_endpoint
+    @@default_endpoint
+  end
+
+  def initialize(endpoint=@@default_endpoint)
+    super(endpoint)
+  end
+
+  def get
+    response = Faraday.get endpoint
+    response.body
+  end
+
+  def validator_balances_raw
+    get.scan /^validator_balance.*$/
+  end
+
+end
