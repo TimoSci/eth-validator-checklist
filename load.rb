@@ -10,5 +10,6 @@ require_relative 'src/generators'
 checklist = Eth2Checklist.new
 installer = EasyPrysmInstaller.new(checklist)
 generator = ServiceGenerator.new
+metrics = ValidatorMetricsInterface.new
 #
 binding.pry
