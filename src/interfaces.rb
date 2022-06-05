@@ -127,6 +127,10 @@ class PrysmBeaconInterface < Interface
     get "/validators/balances?epoch=#{epoch}" 
   end
 
+  def balance(epoch,pubkey)
+    get "/validators/balances?publicKeys=#{pubkey}&epoch=#{epoch}"
+  end
+
   private
 
 
