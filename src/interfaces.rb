@@ -171,4 +171,16 @@ class ValidatorMetricsInterface < Interface
     validator_balances_raw.map{|balance| parse(balance)}
   end
 
+  def validator_balances_base64
+    validator_balances.map{|validator| validator[:pubkey] = hex_to_base64(validator[:pubkey]); validator}
+  end
+
+  private
+
+  def hex_to_base64(string)
+    string = string[2..-1]
+    [[string].pack("H*")].pack("m0")
+  end
+
+
 end
