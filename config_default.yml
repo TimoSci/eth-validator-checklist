@@ -46,6 +46,8 @@
 :geth:
   :minpeercount: 8
   :http_endpoint: http://127.0.0.1:8545
+  :cache: 8192
+  :maxpeercount: 50
 
 :prysmbeacon:
   :minpeercount: 20

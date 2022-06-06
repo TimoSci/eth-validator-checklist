@@ -9,7 +9,7 @@ Group=goeth
 Type=simple
 Restart=always
 RestartSec=5
-ExecStart= <%= executable %> <%= flag %> --http --datadir <%= datadir %> --cache 2048 --maxpeers 30
+ExecStart= <%= executable %> <%= flag %> --http --datadir <%= datadir %> --port <%= port %> --cache 8192 --maxpeers 50
 
 [Install]
 WantedBy=default.target
