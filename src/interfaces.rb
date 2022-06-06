@@ -20,6 +20,12 @@ class Interface
     Faraday.get(endpoint)&.status rescue false
   end
 
+  def write_json(filename,hash)
+    File.open("#{filename}.json","w") do |f|
+      f.write(hash.to_json)
+    end
+  end
+
 end
 
 
@@ -131,6 +137,12 @@ class PrysmBeaconInterface < Interface
     get "/validators/balances?publicKeys=#{pubkey}&epoch=#{epoch}"
   end
 
+  def balances_for_epoch(pubkeys,epoch)
+    request = "/validators/balances?&epoch=#{epoch}"
+    pubkeys.each {|pubkey| request = request + "&publicKeys=" + pubkey}
+    get request
+  end
+
   private
 
 
@@ -175,8 +187,12 @@ class ValidatorMetricsInterface < Interface
     validator_balances_raw.map{|balance| parse(balance)}
   end
 
+  def active_validators_base64
+    validator_balances_base64.map{|validator| validator[:pubkey64]}
+  end
+
   def validator_balances_base64
-    validator_balances.map{|validator| validator[:pubkey] = hex_to_base64(validator[:pubkey]); validator}
+    validator_balances.map{|validator| validator[:pubkey64] = hex_to_base64(validator[:pubkey]); validator}
   end
 
   private
