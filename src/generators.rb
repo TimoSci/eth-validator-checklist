@@ -36,6 +36,8 @@ class Template < Eth2Object
     datadir = config[:directories][name]
     network = config[name]&.[] :network
     port = config[:ports][name]
+    tcp_port = config[:ports][:prysm][:tcp]
+    udp_port = config[:ports][:prysm][:udp]
     flag = "--#{network}" if network
     get_erb.result(binding)
   end
