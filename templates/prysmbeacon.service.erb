@@ -9,7 +9,7 @@ Group=prysmbeacon
 Type=simple
 Restart=always
 RestartSec=5
-ExecStart=<%= executable %> <%= flag %> --datadir=<%= datadir %> --http-web3provider=http://127.0.0.1:8545 --p2p-tcp-port <%= tcp_port %> --p2p-udp-port <%= udp_port %>  --p2p-max-peers 250-accept-terms-of-use
+ExecStart=<%= executable %> <%= flag %> --datadir=<%= datadir %> --http-web3provider=http://127.0.0.1:8545 --p2p-tcp-port <%= tcp_port %> --p2p-udp-port <%= udp_port %>  --p2p-max-peers 250 --accept-terms-of-use
 
 [Install]
 WantedBy=multi-user.target
