@@ -1,0 +1,1 @@
+sudo geth attach ipc:/var/lib/goethereum/geth.ipc
