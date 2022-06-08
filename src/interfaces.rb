@@ -144,11 +144,20 @@ class PrysmBeaconInterface < Interface
     get "/validators/balances?publicKeys=#{pubkey}&epoch=#{epoch}"
   end
 
+  # def balances_for_epoch(epoch,pubkeys)
+  #   pubkeys =pubkeys.map{|k| http_format(k)}
+  #   request = "/validators/balances?&epoch=#{epoch}"
+  #   pubkeys.each {|pubkey| request = request + "&publicKeys=" + pubkey}
+  #   get request
+  # end
+
   def balances_for_epoch(epoch,pubkeys)
-    pubkeys =pubkeys.map{|k| http_format(k)}
-    request = "/validators/balances?&epoch=#{epoch}"
-    pubkeys.each {|pubkey| request = request + "&publicKeys=" + pubkey}
-    get request
+    out = []
+    pubkeys.each do |pubkey|
+      out << balance(epoch,pubkey)
+      puts "stored balance for #{pubkey}"
+    end
+    out
   end
 
   private
