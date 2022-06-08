@@ -26,6 +26,12 @@ class Interface
     end
   end
 
+  protected
+
+  def http_format(pubkey) 
+    pubkey.gsub("+","%2b")
+  end
+
 end
 
 
@@ -134,10 +140,11 @@ class PrysmBeaconInterface < Interface
   end
 
   def balance(epoch,pubkey)
+    pubkey = http_format(pubkey)
     get "/validators/balances?publicKeys=#{pubkey}&epoch=#{epoch}"
   end
 
-  def balances_for_epoch(pubkeys,epoch)
+  def balances_for_epoch(epoch,pubkeys)
     request = "/validators/balances?&epoch=#{epoch}"
     pubkeys.each {|pubkey| request = request + "&publicKeys=" + pubkey}
     get request
