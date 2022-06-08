@@ -145,6 +145,7 @@ class PrysmBeaconInterface < Interface
   end
 
   def balances_for_epoch(epoch,pubkeys)
+    pubkeys =pubkeys.map{|k| http_format(k)}
     request = "/validators/balances?&epoch=#{epoch}"
     pubkeys.each {|pubkey| request = request + "&publicKeys=" + pubkey}
     get request
