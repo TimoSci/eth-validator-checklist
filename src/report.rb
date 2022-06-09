@@ -66,7 +66,7 @@ class ValidatorData
     def to_table(data)
         titles = ["epoch","public_key","index","balance","status"]
         out = data.map do |h|
-            balances = h["balances"]
+            balances = h["balances"][0]
             [h["epoch"]]+balances.values
         end
         titles+out
