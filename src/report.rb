@@ -24,7 +24,7 @@ class Report
         end
     end
 
-    def read_json(file="#{default_filename}.json")
+    def read_json(file="#{default_filename}")
         file = "#{file}.json"
         JSON.parse(File.read(file))
     end
