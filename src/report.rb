@@ -11,6 +11,8 @@ class Report
         @default_filename = "validator-balances"
         @validator_data = ValidatorData.new
         @validator_data.default_filename = @default_filename
+        @validator_data.metrics = @metrics
+        @validator_data.clients = @clients
     end
 
     attr_accessor :clients, :metrics, :validator_data
@@ -52,7 +54,7 @@ end
 
 class ValidatorData
 
-    attr_accessor :data, :default_filename
+    attr_accessor :data, :default_filename, :metrics, :clients
 
     def balances(epoch)
         pubkeys = metrics.validator_balances_base64.map{|h| h[:pubkey64]}
