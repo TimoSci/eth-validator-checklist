@@ -1,5 +1,6 @@
 require_relative 'checklist'
 require 'json'
+require 'csv'
 
 class Report
 # Class used for generating reports of validator metrics
@@ -19,6 +20,19 @@ class Report
     def write_json(data,file="validator-balances.json")
         File.open(file,"w") do |f|
             f.write(data.to_json)
+        end
+    end
+
+    def read_json(file)
+        file = "#{file}.json"
+        JSON.parse(File.read(file))
+    end
+
+    def write_csv(data,file="validator-balances.csv")
+        CSV.open("#{file}.csv","wb") do |f|
+          data.each do |name,properties|
+            f << [name,properties]
+          end
         end
     end
 
