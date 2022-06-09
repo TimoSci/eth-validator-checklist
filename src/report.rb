@@ -69,7 +69,7 @@ class ValidatorData
             balances = h["balances"][0]
             [h["epoch"]]+balances.values
         end
-        titles+out
+        [titles]+out
     end
 
     def write_json(file="#{default_filename}.json")
