@@ -34,7 +34,6 @@ GEM
     ruby2_keywords (0.0.5)
 
 PLATFORMS
-  ruby
   x86_64-linux
 
 DEPENDENCIES
@@ -44,4 +43,4 @@ DEPENDENCIES
   rspec
 
 BUNDLED WITH
-   2.2.16
+   2.2.15

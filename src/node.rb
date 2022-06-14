@@ -36,6 +36,10 @@ class Node
     checklist.config[:system][:binaries] + "/" + checklist.config[:executables][name]
   end
 
+  def get_executable_path
+    File.exists?(executable_path) ? executable_path : nil
+  end
+
   def installation_directory
     dir = config_dir
     return nil unless dir
