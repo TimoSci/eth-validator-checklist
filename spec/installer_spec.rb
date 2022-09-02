@@ -10,7 +10,7 @@ RSpec.describe PrysmInstaller do
   checklist = Eth2Checklist.new
   installer = PrysmInstaller.new(checklist)
 
-  it "creates and deletes the prysm data diractory" do
+  it "properly creates and deletes the prysmbeacon data diractory" do
 
     installer.create_data_directory
     expect(checklist.clients.prysmbeacon.installation_directory).to be_truthy
@@ -19,7 +19,7 @@ RSpec.describe PrysmInstaller do
 
   end
 
-  it "downloads and copies, and deletes the prysm executable" do
+  it "downloads and copies, and deletes the prysmbeacon executable" do
 
     installer.remove_executable
     expect(checklist.clients.prysmbeacon.get_executable_path).to be_falsy
