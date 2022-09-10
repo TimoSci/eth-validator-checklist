@@ -4,6 +4,7 @@
   :validator: prysmvalidator
 
 :ports:
+  :erigon: 30303
   :geth: 30303
   :prysm:
     :tcp: 13000
@@ -11,21 +12,25 @@
 
 :directories:
   :geth: /var/lib/goethereum
+  :erigon: /var/lib/erigon
   :prysmbeacon: /var/lib/prysm/beacon
   :prysmvalidator: /var/lib/prysm/validator
 
 :executables:
   :geth: geth
+  :erigon: erigon
   :prysmbeacon: beacon-chain 
   :prysmvalidator: validator
 
 :users:
   :geth: goeth
+  :erigon: erigon
   :prysmbeacon: prysmbeacon
   :prysmvalidator: prysmvalidator
 
 :github:
   :geth: ethereum/go-ethereum
+  :erigon: ledgerwatch/erigon
   :prysmbeacon: prysmaticlabs/prysm
   :prysmvalidator: prysmaticlabs/prysm
 
