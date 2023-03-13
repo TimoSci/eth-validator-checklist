@@ -26,24 +26,24 @@ class Report
         validator_data.balances(epoch)
     end
 
-    # def write_json(data,file="#{default_filename}.json")
-    #     File.open(file,"w") do |f|
-    #         f.write(data.to_json)
-    #     end
-    # end
+     def write_json(data,file="#{default_filename}.json")
+         File.open(file,"w") do |f|
+             f.write(data.to_json)
+         end
+     end
 
     # def read_json(file="#{default_filename}")
     #     file = "#{file}.json"
     #     JSON.parse(File.read(file))
     # end
 
-    # def write_csv(data,file="#{default_filename}.csv")
-    #     CSV.open(file,"wb") do |f|
-    #       data.each do |name,properties|
-    #         f << [name,properties]
-    #       end
-    #     end
-    # end
+     def write_csv(data,file="#{default_filename}.csv")
+         CSV.open(file,"wb") do |f|
+           data.each do |name,properties|
+             f << [name,properties]
+           end
+         end
+     end
 
     def write_current_validator_balances(epoch)
         validator_data.write_json(current_validator_balances(epoch))
