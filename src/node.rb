@@ -43,7 +43,7 @@ class Node
   def installation_directory
     dir = config_dir
     return nil unless dir
-    Dir.exists?(dir) ? dir : nil
+    Dir.exist?(dir) ? dir : nil
   end
 
   def install_dir_owner
