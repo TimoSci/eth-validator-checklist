@@ -195,7 +195,7 @@ class System < ChecklistSection
   end
 
   def reboot_required?
-    File.exists? "/var/run/reboot-required"
+    File.exist? "/var/run/reboot-required"
   end
 
 
@@ -216,8 +216,8 @@ class Eth2Checklist < Eth2Object
   @@default_config_file = "./config_default.yml"
   @@config_file = "config.yml"
 
-  raise "no default configuration file!" unless File.exists? @@default_config_file
-  @@config_file= @@default_config_file unless File.exists?(@@config_file)
+  raise "no default configuration file!" unless File.exist? @@default_config_file
+  @@config_file= @@default_config_file unless File.exist?(@@config_file)
 
   def initialize(config=nil)
     super(config)

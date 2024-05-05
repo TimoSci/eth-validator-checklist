@@ -8,11 +8,19 @@ require_relative 'src/interfaces'
 require_relative 'src/installers'
 require_relative 'src/generators'
 require_relative 'src/report'
+require_relative 'src/abstract_classes'
 #
+o = Eth2Object.new
+endpoint = o.config[:prysmbeacon][:http_endpoint]
+puts endpoint
+#
+
 checklist = Eth2Checklist.new
 installer = EasyPrysmInstaller.new(checklist)
 generator = ServiceGenerator.new
 metrics = ValidatorMetricsInterface.new
+prysminterface = PrysmBeaconInterface.new(endpoint)
+beaconstats = BeaconStatsInterface.new(endpoint)
 report = Report.new
 #
 

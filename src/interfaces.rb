@@ -121,6 +121,10 @@ class PrysmBeaconInterface < Interface
     get "/beacon/chainhead"
   end
 
+  def current_epoch
+    chainhead["headEpoch"]
+  end
+
   def peercount
     peers["peers"]&.size
   end
@@ -167,6 +171,67 @@ class PrysmBeaconInterface < Interface
   def api_path
     @@api_path
   end
+
+end
+
+
+class BeaconStatsInterface < PrysmBeaconInterface
+
+  @@page_size = 250
+
+  def page_size
+    @@page_size
+  end
+
+  def attestations_for_epoch(epoch)
+    hash = get "/beacon/attestations?epoch=#{epoch}"
+    attestations = hash["attestations"]
+    totalsize = hash["totalSize"]
+    page_number = (totalsize.to_f/page_size).ceil
+
+    (1...page_number).each do |i|
+      attestations += get_attestations_for_epoch(epoch,i)&.[] "attestations"
+    end
+
+    attestations
+
+  end
+
+
+  def indexed_attestations_for_epoch(epoch)
+    hash = get "/beacon/attestations/indexed?epoch=#{epoch}"
+    # attestations = hash["indexedAttestations"]
+    attestations = []
+    totalsize = hash["totalSize"]
+    page_number = (totalsize.to_f/page_size).ceil
+
+    (0...page_number).each do |i|
+      new_attestations = get_indexed_attestations_for_epoch(epoch,i)&.[] "indexedAttestations"
+      attestations += new_attestations if new_attestations
+    end
+
+    attestations
+
+  end
+
+  def get_attestations_for_epoch(epoch,page_token=0) 
+     get "/beacon/attestations?epoch=#{epoch}&page_token=#{page_token}"
+  end  
+
+  
+  def get_indexed_attestations_for_epoch(epoch,page_token=0) 
+    get "/beacon/attestations/indexed?epoch=#{epoch}&page_token=#{page_token}"
+  end  
+
+  def validators_for_epoch(epoch)
+    validators = Set.new
+    indexed_attestations_for_epoch(epoch).each do |attestation|
+    indices = attestation["attestingIndices"].map(&:to_i)
+      validators |= indices
+    end
+    validators
+  end
+
 
 end
 

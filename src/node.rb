@@ -37,7 +37,7 @@ class Node
   end
 
   def get_executable_path
-    File.exists?(executable_path) ? executable_path : nil
+    File.exist?(executable_path) ? executable_path : nil
   end
 
   def installation_directory
@@ -99,7 +99,7 @@ class PrysmNode < Node
     @name = :prysmbeacon
     executable = executable_path
     return nil unless executable
-    return nil unless File.exists?(executable)
+    return nil unless File.exist?(executable)
     response = %x|#{executable} -version|
     version = response.scan( /\s+Prysm[\/]([^\/]+)\//i )
     version.trample[0]

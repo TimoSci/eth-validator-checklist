@@ -6,7 +6,7 @@ class Eth2Object
 
   def initialize(config=nil)
     @config = config
-    config_from_file if File.exists? @@config_file
+    config_from_file if File.exist? @@config_file
   end
   attr_reader :config
 

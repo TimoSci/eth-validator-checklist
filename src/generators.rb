@@ -26,7 +26,7 @@ class Template < Eth2Object
   end
   
   def get_erb
-    raise "template file doesn't exist" unless File.exists? path
+    raise "template file doesn't exist" unless File.exist? path
     ERB.new File.read(path)
   end
 
@@ -53,7 +53,7 @@ class Template < Eth2Object
   def copy_file
     dir = config[:system][:services]
     destination_path = dir+"/#{name}.service"
-    if File.exists? destination_path
+    if File.exist? destination_path
       pp "file #{destination_path} already exists"
       return
     end
