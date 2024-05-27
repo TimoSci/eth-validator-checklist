@@ -78,6 +78,14 @@ class GethInterface < Interface
     peercount > node.checklist.config[:geth][:minpeercount]
   end
 
+  def node_info
+    connection.admin_nodeInfo
+  end
+
+  def my_enode
+    node_info["enode"]
+  end
+
 end
 
 
