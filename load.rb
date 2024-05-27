@@ -21,6 +21,7 @@ generator = ServiceGenerator.new
 metrics = ValidatorMetricsInterface.new
 prysminterface = PrysmBeaconInterface.new(endpoint)
 beaconstats = BeaconStatsInterface.new(endpoint)
+gethinterface = GethInterface.new(o.config[:geth][:http_endpoint])
 report = Report.new
 #
 
