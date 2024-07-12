@@ -95,6 +95,7 @@ class PrysmBeaconInterface < Interface
 
   @@default_endpoint =   "http://localhost:3500"
   @@api_path = "/eth/v1alpha1"
+  @@default_timeout = 6000
 
   def self.default_endpoint
       @@default_endpoint
@@ -143,7 +144,11 @@ class PrysmBeaconInterface < Interface
   end
 
   def get(path)
-    response = Faraday.get endpoint+api_path+path
+    conn = Faraday.new do |faraday|
+      faraday.options.timeout = @@default_timeout
+      faraday.options.read_timeout = @@default_timeout
+    end
+    response = conn.get endpoint+api_path+path
     JSON.parse(response.body)
   end
 
